@@ -6,7 +6,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ARCHelper.h"
 #import "BumpTableModel.h"
 #import "BumpTableViewCell.h"
 
@@ -16,7 +15,7 @@
     UITableView *_tableView;
 }
 
-@property (nonatomic, weak) id <BumpTableViewSearchDismissedDelegate>searchDismissedDelegate;
+@property (nonatomic, assign) id <BumpTableViewSearchDismissedDelegate>searchDismissedDelegate;
 
 /* UITableView & UIScrollView passthroughs */
 @property (nonatomic, strong) UIView *tableHeaderView;
