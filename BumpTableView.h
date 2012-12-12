@@ -9,13 +9,13 @@
 #import "BumpTableModel.h"
 #import "BumpTableViewCell.h"
 
-@protocol BumpTableViewSearchDismissedDelegate;
+@protocol BumpTableViewDelegate;
 
 @interface BumpTableView : UIView <UITableViewDelegate, UITableViewDataSource, UISearchDisplayDelegate> {
     UITableView *_tableView;
 }
 
-@property (nonatomic, assign) id <BumpTableViewSearchDismissedDelegate>searchDismissedDelegate;
+@property (nonatomic, assign) id <BumpTableViewDelegate>tableViewDelegate;
 
 /* UITableView & UIScrollView passthroughs */
 @property (nonatomic, strong) UIView *tableHeaderView;
@@ -29,15 +29,14 @@
 @property (nonatomic) BOOL allowsMultipleSelection;
 
 /* Special additions */
-@property (nonatomic) BOOL sticksToBottom;
-@property (nonatomic) BOOL hasScrubber;
+@property (nonatomic) BOOL anchorsToBottom;
+@property (nonatomic) BOOL showSectionIndexTitles;
 @property (nonatomic) BOOL allowsSwipeConfirmation;
 @property (nonatomic, strong) NSString *swipeConfirmationTitle;
 @property (nonatomic, strong) UISearchBar *searchBar;
 
 /* Model */
 @property (nonatomic, strong) BumpTableModel *model;
-
 - (id)initWithFrame:(CGRect)frame style:(UITableViewStyle)style;
 - (void)transitionToModel:(BumpTableModel *)newModel;
 - (void)pauseUpdates;
@@ -45,8 +44,8 @@
 
 @end
 
-@protocol BumpTableViewSearchDismissedDelegate <NSObject>
+@protocol BumpTableViewDelegate <NSObject>
 @optional
-- (void)searchWillDismiss;
-- (void)searchDidDismiss;
+- (void)searchBarWillDismiss;
+- (void)searchBarDidDismiss;
 @end

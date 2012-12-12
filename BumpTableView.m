@@ -89,7 +89,7 @@
 }
 
 - (void)contentSizeChanged:(NSDictionary *)change {
-    if (_sticksToBottom) {
+    if (_anchorsToBottom) {
         [self scrollToBottomAnimated:YES];
     }
 }
@@ -140,8 +140,7 @@
 }
 
 
-+ (BumpTransition *)sectionTransitionFrom:(NSArray *)oldSections to:(NSArray *)newSections
-                                    fancy:(BOOL)fancyMovingBidness {
++ (BumpTransition *)sectionTransitionFrom:(NSArray *)oldSections to:(NSArray *)newSections {
     NSMutableSet *insertedSections = [NSMutableSet set];
     NSMutableSet *deletedSections = [NSMutableSet set];
 
@@ -166,7 +165,7 @@
                                                 filterWithBlock:goodSecs]
                                             to:[[newSections mapWithBlock:secKeys]
                                                 filterWithBlock:goodSecs]];
-    if (!fancyMovingBidness) {
+    if (![UITableView instancesRespondToSelector:@selector(moveRowAtIndexPath:toIndexPath:)]) {
         for (NSObject *key in movedSections) {
             [deletedSections addObject:key];
             [insertedSections addObject:key];
@@ -185,8 +184,7 @@
 + (BumpTransition *)rowTransitionFrom:(BumpTableModel *)oldModel to:(BumpTableModel *)newModel
                          fromSections:(NSDictionary *)oldSecIx toSections:(NSDictionary *)newSecIx
                              fromRows:(NSDictionary *)oldIps   toRows:(NSDictionary *)newIps
-                         sameSections:(NSSet *)mutualSections
-                                fancy:(BOOL)fancyMovingBidness {
+                         sameSections:(NSSet *)mutualSections {
     NSMutableSet *insertedRows = [NSMutableSet set];
     NSMutableSet *deletedRows = [NSMutableSet set];
     NSMutableSet *movedRows = [NSMutableSet set];
@@ -238,7 +236,7 @@
         [movedRows unionSet:movedInThisSection];
     }
 
-    if (!fancyMovingBidness) {
+    if (![UITableView instancesRespondToSelector:@selector(moveRowAtIndexPath:toIndexPath:)]) {
         for (NSObject *key in movedRows) {
             [deletedRows addObject:key];
             [insertedRows addObject:key];
@@ -275,13 +273,8 @@
         return;
     }
 
-    BOOL fancyMovingBidness = [_tableView respondsToSelector:@selector(moveSection:toSection:)] &&
-    [_tableView respondsToSelector:@selector(moveRowAtIndexPath:toIndexPath:)];
-    BOOL fancySectionBidness = NO;//TODO: make it the same as MovingBidness once we figure out section moving bugs
-
     BumpTransition *sectionInfo = [[self class] sectionTransitionFrom:oldModel.sections
-                                                                   to:newModel.sections
-                                                                fancy:fancySectionBidness];
+                                                                   to:newModel.sections];
 
     NSDictionary *oldS = [oldModel sectionIndexes];//key->indexSet
     NSAssert(oldS.count == oldModel.sections.count, @"the old table model has non-unique section keys");
@@ -295,10 +288,7 @@
     BumpTransition *rowInfo = [[self class] rowTransitionFrom:oldModel to:newModel
                                                  fromSections:oldS toSections:newS
                                                      fromRows:oldIps toRows:newIps
-                                                 sameSections:sectionInfo.mutual
-                                                        fancy:fancyMovingBidness];
-
-    //    NSLog(@"\nsectionInfo:%@\nrowInfo:%@", [sectionInfo indentedDescription], [rowInfo indentedDescription]);
+                                                 sameSections:sectionInfo.mutual];
     NSArray *thenVisibleIps = [_tableView indexPathsForVisibleRows];
     UITableViewRowAnimation insertAnimation = UITableViewRowAnimationTop;
     UITableViewRowAnimation deleteAnimation = UITableViewRowAnimationTop;
@@ -311,7 +301,8 @@
         [_tableView deleteSections:[oldS objectForKey:key]
                   withRowAnimation:deleteAnimation];
     }
-    if (fancySectionBidness) {
+    // TODO: Remove this NO once section moving bugs are resolved
+    if (NO && [_tableView respondsToSelector:@selector(moveSection:toSection:)]) {
         for (NSObject *key in sectionInfo.moved) {
             [_tableView moveSection:[[oldS objectForKey:key] firstIndex]
                           toSection:[[newS objectForKey:key] firstIndex]];
@@ -323,7 +314,7 @@
     [_tableView deleteRowsAtIndexPaths:[oldIps objectsForKeys:[rowInfo.deleted allObjects]
                                                notFoundMarker:[NSNull null]]
                       withRowAnimation:deleteAnimation];
-    if (fancyMovingBidness) {
+    if ([_tableView respondsToSelector:@selector(moveRowAtIndexPath:toIndexPath:)]) {
         for (NSObject *key in rowInfo.moved) {
             [_tableView moveRowAtIndexPath:[oldIps objectForKey:key]
                                toIndexPath:[newIps objectForKey:key]];
@@ -575,7 +566,7 @@
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
-    if (tableView != _searchResultsTableView && _hasScrubber) {
+    if (tableView != _searchResultsTableView && _showSectionIndexTitles) {
         NSMutableArray *indexTitles = [NSMutableArray array];
         for (BumpTableSection *section in _model.sections) {
             [indexTitles addObject:section.indexTitle];
@@ -615,14 +606,14 @@
 }
 
 - (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller {
-    if ([_searchDismissedDelegate conformsToProtocol:@protocol(BumpTableViewSearchDismissedDelegate)]) {
-        [_searchDismissedDelegate searchDidDismiss];
+    if ([_tableViewDelegate respondsToSelector:@selector(searchBarDidDismiss)]) {
+        [_tableViewDelegate searchBarDidDismiss];
     }
 }
 
 - (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller {
-    if ([_searchDismissedDelegate conformsToProtocol:@protocol(BumpTableViewSearchDismissedDelegate)]) {
-        [_searchDismissedDelegate searchWillDismiss];
+    if ([_tableViewDelegate respondsToSelector:@selector(searchBarWillDismiss)]) {
+        [_tableViewDelegate searchBarWillDismiss];
     }
 }
 
