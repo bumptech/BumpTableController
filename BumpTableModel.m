@@ -188,24 +188,3 @@
 }
 
 @end
-
-@implementation BumpTableRow (Tagging)
-
-- (BOOL)isFlockFriendRow {
-    NSDictionary *keyDict = (NSDictionary *)self.key;
-    return [[keyDict objectForKey:@"flockFriend"] boolValue];
-}
-
-- (BOOL)isNonFlockFriendRow {
-    NSDictionary *keyDict = (NSDictionary *)self.key;
-    return (![self isFlockFriendRow] &&
-            [keyDict objectForKey:@"phoneNumber"] == [NSNull null]);
-}
-
-- (BOOL)isPhoneNumberFriendRow {
-    NSDictionary *keyDict = (NSDictionary *)self.key;
-    return (![self isFlockFriendRow] &&
-            [keyDict objectForKey:@"phoneNumber"] != [NSNull null]);
-}
-
-@end

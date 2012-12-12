@@ -94,11 +94,3 @@ typedef void (^BumpTableCellOnSwipeConfirmation)(id cell);
  reuseIdentifier:(NSString *)reuseIdentifier
        generator:(BumpTableCellGenerator)generator;
 @end
-
-@interface BumpTableRow (Tagging)
-
-- (BOOL)isFlockFriendRow;
-- (BOOL)isNonFlockFriendRow;
-- (BOOL)isPhoneNumberFriendRow;
-
-@end
