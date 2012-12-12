@@ -6,6 +6,8 @@
 //
 
 #import "BumpTableView.h"
+#import "NSArray+Functional.h"
+#import "NSObject+Description.h"
 
 #define SEARCH_BAR_HEIGHT 44.0f
 

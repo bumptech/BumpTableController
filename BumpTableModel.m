@@ -7,6 +7,8 @@
 //
 
 #import "BumpTableModel.h"
+#import "NSArray+Functional.h"
+#import "NSObject+Description.h"
 
 @interface BumpTableModel ()
 @property (nonatomic) NSMutableDictionary *sectionNumberForRow;

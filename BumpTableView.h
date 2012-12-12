@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ARCHelper.h"
 #import "BumpTableModel.h"
 #import "BumpTableViewCell.h"
 
