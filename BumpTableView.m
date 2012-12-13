@@ -11,7 +11,8 @@
 
 #define SEARCH_BAR_HEIGHT 44.0f
 
-// Class for managing transitions between BumpTableView updates
+
+/* Class for managing transitions between BumpTableView updates */
 @interface BumpTransition : NSObject
 @property (nonatomic) NSSet *inserted;
 @property (nonatomic) NSSet *deleted;
@@ -29,7 +30,8 @@
 }
 @end
 
-// Class for keeping track of state between pauses and resumes
+
+/* Class for keeping track of state between pauses and resumes */
 @interface BumpPosponedUpdate : NSObject
 @property (nonatomic) BumpTableModel *model;
 @property (nonatomic) BOOL transition;
@@ -38,15 +40,18 @@
 @end
 
 
+/* Main BumpTableView Class */
 @interface BumpTableView ()
+
 @property (nonatomic) UITableView *tableView;
 @property (nonatomic) BOOL updatesPaused;
 @property (nonatomic) BumpPosponedUpdate *postponedUpdate;
 
-/* Search */
-@property (nonatomic) NSString *searchString;
+// Search
 @property (nonatomic) UITableView *searchResultsTableView;
+@property (nonatomic) NSString *searchString;
 @property (nonatomic) NSArray *searchResultsRows;
+
 @end
 
 @implementation BumpTableView
@@ -119,7 +124,14 @@
     return nil;
 }
 
-#pragma mark - Caclulating model transitions
+- (NSArray *)selectedRows {
+    NSArray *selectedRows = [[_tableView indexPathsForSelectedRows] mapWithBlock:^id(NSIndexPath *indexPath) {
+        return [self rowForIndexPath:indexPath];
+    }];
+    return selectedRows;
+}
+
+#pragma mark - Model transitions
 
 /**
  * This takes two arrays of keys and returns a set of mismatches
@@ -138,7 +150,6 @@
     }
     return moved;
 }
-
 
 + (BumpTransition *)sectionTransitionFrom:(NSArray *)oldSections to:(NSArray *)newSections {
     NSMutableSet *insertedSections = [NSMutableSet set];
@@ -181,9 +192,12 @@
     return sectionTransition;
 }
 
-+ (BumpTransition *)rowTransitionFrom:(BumpTableModel *)oldModel to:(BumpTableModel *)newModel
-                         fromSections:(NSDictionary *)oldSecIx toSections:(NSDictionary *)newSecIx
-                             fromRows:(NSDictionary *)oldIps   toRows:(NSDictionary *)newIps
++ (BumpTransition *)rowTransitionFrom:(BumpTableModel *)oldModel
+                                   to:(BumpTableModel *)newModel
+                         fromSections:(NSDictionary *)oldSecIx
+                           toSections:(NSDictionary *)newSecIx
+                             fromRows:(NSDictionary *)oldIps
+                               toRows:(NSDictionary *)newIps
                          sameSections:(NSSet *)mutualSections {
     NSMutableSet *insertedRows = [NSMutableSet set];
     NSMutableSet *deletedRows = [NSMutableSet set];
@@ -360,6 +374,7 @@
 }
 
 #pragma mark - Pausing Updates
+
 - (void)pauseUpdates {
     _updatesPaused = YES;
 }
@@ -376,7 +391,7 @@
     }
 }
 
-#pragma mark - Passthroughs
+#pragma mark - UITableView/UIScrollView property passthroughs
 
 - (void)setTableHeaderView:(UIView *)tableHeaderView {
     _tableView.tableHeaderView = tableHeaderView;
@@ -447,13 +462,6 @@
 
 - (UIView *)backgroundView {
     return _tableView.backgroundView;
-}
-
-- (NSArray *)selectedRows {
-    NSArray *selectedRows = [[_tableView indexPathsForSelectedRows] mapWithBlock:^id(NSIndexPath *indexPath) {
-        return [self rowForIndexPath:indexPath];
-    }];
-    return selectedRows;
 }
 
 - (void)setScrollsToTop:(BOOL)scrollsToTop; {

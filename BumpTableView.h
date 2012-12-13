@@ -15,8 +15,6 @@
     UITableView *_tableView;
 }
 
-@property (nonatomic, assign) id <BumpTableViewDelegate>tableViewDelegate;
-
 /* UITableView & UIScrollView passthroughs */
 @property (nonatomic, strong) UIView *tableHeaderView;
 @property (nonatomic, strong) UIView *tableFooterView;
@@ -34,6 +32,7 @@
 @property (nonatomic) BOOL allowsSwipeConfirmation;
 @property (nonatomic, strong) NSString *swipeConfirmationTitle;
 @property (nonatomic, strong) UISearchBar *searchBar;
+@property (nonatomic, assign) id <BumpTableViewDelegate>tableViewDelegate;
 
 /* Model */
 @property (nonatomic, strong) BumpTableModel *model;
