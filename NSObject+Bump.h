@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSObject (FLDescription)
+@interface NSObject (Bump_Description)
 
 - (NSString *)indentedDescription;
 

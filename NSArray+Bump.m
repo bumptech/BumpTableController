@@ -6,10 +6,10 @@
 //  Copyright (c) 2012 Bump Technologies Inc. All rights reserved.
 //
 
-#import "NSArray+Functional.h"
+#import "NSArray+Bump.h"
 
 
-@implementation NSArray (Functional)
+@implementation NSArray (Bump_Functional)
 
 - (NSArray*)mapWithBlock:(NSArrayUtilTransform)block {
     NSMutableArray *toRet = [NSMutableArray arrayWithCapacity:[self count]];

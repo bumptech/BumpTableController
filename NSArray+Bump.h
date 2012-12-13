@@ -14,7 +14,7 @@ typedef id(^NSArrayUtilCombiner)(id soFar, id obj);
 typedef int(^NSArrayUtilCombinerInt)(int soFar, id obj);
 typedef int(^NSArrayUtilIntTransform)(id obj);
 
-@interface NSArray (Functional)
+@interface NSArray (Bump_Functional)
 - (NSArray*)mapWithBlock:(NSArrayUtilTransform)block;
 
 - (NSArray*)filterWithBlock:(NSArrayUtilPredicate)block;

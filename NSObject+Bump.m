@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 Bump Technologies Inc. All rights reserved.
 //
 
-#import "NSObject+Description.h"
+#import "NSObject+Bump.h"
 
-@implementation NSObject (FLDescription)
+@implementation NSObject (Bump_Description)
 
 static NSString *indentedString(NSString *s) {
     static NSString *n = @"\n";
