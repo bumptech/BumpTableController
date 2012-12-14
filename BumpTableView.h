@@ -11,20 +11,7 @@
 
 @protocol BumpTableViewDelegate;
 
-@interface BumpTableView : UIView <UITableViewDelegate, UITableViewDataSource, UISearchDisplayDelegate> {
-    UITableView *_tableView;
-}
-
-/* UITableView & UIScrollView passthroughs */
-@property (nonatomic, strong) UIView *tableHeaderView;
-@property (nonatomic, strong) UIView *tableFooterView;
-@property (nonatomic, strong) UIView *backgroundView;
-@property (nonatomic) UIEdgeInsets contentInset;
-@property (nonatomic) CGPoint contentOffset;
-@property (nonatomic) UIEdgeInsets scrollingIndicatorInsets;
-@property (nonatomic) UITableViewCellSeparatorStyle separatorStyle;
-@property (nonatomic) BOOL scrollsToTop;
-@property (nonatomic) BOOL allowsMultipleSelection;
+@interface BumpTableView : UITableView <UITableViewDelegate, UITableViewDataSource, UISearchDisplayDelegate>
 
 /* Special additions */
 @property (nonatomic) BOOL anchorsToBottom;
@@ -36,6 +23,7 @@
 
 /* Model */
 @property (nonatomic, strong) BumpTableModel *model;
+
 - (id)initWithFrame:(CGRect)frame style:(UITableViewStyle)style;
 - (void)transitionToModel:(BumpTableModel *)newModel;
 - (void)pauseUpdates;

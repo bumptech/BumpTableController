@@ -43,7 +43,6 @@
 /* Main BumpTableView Class */
 @interface BumpTableView ()
 
-@property (nonatomic) UITableView *tableView;
 @property (nonatomic) BOOL updatesPaused;
 @property (nonatomic) BumpPosponedUpdate *postponedUpdate;
 
@@ -57,22 +56,20 @@
 @implementation BumpTableView
 
 - (void)dealloc {
-    [_tableView removeObserver:self
+    [self removeObserver:self
                     forKeyPath:@"contentSize"
                        context:@selector(contentSizeChanged:)];
 }
 
 - (id)initWithFrame:(CGRect)frame style:(UITableViewStyle)style {
-    if ((self = [super initWithFrame:frame])) {
-        _tableView = [[UITableView alloc] initWithFrame:self.bounds style:style];
-        _tableView.autoresizingMask = (UIViewAutoresizingFlexibleWidth |
-                                       UIViewAutoresizingFlexibleHeight);
-        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        _tableView.delegate = self;
-        _tableView.dataSource = self;
-        [self addSubview:_tableView];
+    if ((self = [super initWithFrame:frame style:style])) {
+        self.autoresizingMask = (UIViewAutoresizingFlexibleWidth |
+                                 UIViewAutoresizingFlexibleHeight);
+        self.separatorStyle = UITableViewCellSeparatorStyleNone;
+        self.delegate = self;
+        self.dataSource = self;
 
-        [_tableView addObserver:self
+        [self addObserver:self
                      forKeyPath:@"contentSize"
                         options:NSKeyValueObservingOptionNew
                         context:@selector(contentSizeChanged:)];
@@ -118,14 +115,14 @@
 }
 
 - (BumpTableRow *)rowForTableView:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath {
-    if (tableView == _tableView) return [self rowForIndexPath:indexPath];
+    if (tableView == self) return [self rowForIndexPath:indexPath];
     if (tableView == _searchResultsTableView) return [_searchResultsRows objectAtIndex:indexPath.row];
     NSAssert(false, @"Unknown tableview");
     return nil;
 }
 
 - (NSArray *)selectedRows {
-    NSArray *selectedRows = [[_tableView indexPathsForSelectedRows] mapWithBlock:^id(NSIndexPath *indexPath) {
+    NSArray *selectedRows = [[self indexPathsForSelectedRows] mapWithBlock:^id(NSIndexPath *indexPath) {
         return [self rowForIndexPath:indexPath];
     }];
     return selectedRows;
@@ -278,11 +275,11 @@
     BumpTableModel *oldModel = _model;
     _model = newModel;
     if (!oldModel) {
-        [_tableView reloadData];
+        [self reloadData];
         return;
     }
     if (!newModel) {
-        [_tableView deleteSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, oldModel.sections.count)]
+        [self deleteSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, oldModel.sections.count)]
                   withRowAnimation:UITableViewRowAnimationTop];
         return;
     }
@@ -303,39 +300,39 @@
                                                  fromSections:oldS toSections:newS
                                                      fromRows:oldIps toRows:newIps
                                                  sameSections:sectionInfo.mutual];
-    NSArray *thenVisibleIps = [_tableView indexPathsForVisibleRows];
+    NSArray *thenVisibleIps = [self indexPathsForVisibleRows];
     UITableViewRowAnimation insertAnimation = UITableViewRowAnimationTop;
     UITableViewRowAnimation deleteAnimation = UITableViewRowAnimationTop;
-    [_tableView beginUpdates];
+    [self beginUpdates];
     for (NSObject *key in sectionInfo.inserted) {
-        [_tableView insertSections:[newS objectForKey:key]
+        [self insertSections:[newS objectForKey:key]
                   withRowAnimation:insertAnimation];
     }
     for (NSObject *key in sectionInfo.deleted) {
-        [_tableView deleteSections:[oldS objectForKey:key]
+        [self deleteSections:[oldS objectForKey:key]
                   withRowAnimation:deleteAnimation];
     }
     // TODO: Remove this NO once section moving bugs are resolved
-    if (NO && [_tableView respondsToSelector:@selector(moveSection:toSection:)]) {
+    if (NO && [self respondsToSelector:@selector(moveSection:toSection:)]) {
         for (NSObject *key in sectionInfo.moved) {
-            [_tableView moveSection:[[oldS objectForKey:key] firstIndex]
+            [self moveSection:[[oldS objectForKey:key] firstIndex]
                           toSection:[[newS objectForKey:key] firstIndex]];
         }
     }
-    [_tableView insertRowsAtIndexPaths:[newIps objectsForKeys:[rowInfo.inserted allObjects]
+    [self insertRowsAtIndexPaths:[newIps objectsForKeys:[rowInfo.inserted allObjects]
                                                notFoundMarker:[NSNull null]]
                       withRowAnimation:insertAnimation];
-    [_tableView deleteRowsAtIndexPaths:[oldIps objectsForKeys:[rowInfo.deleted allObjects]
+    [self deleteRowsAtIndexPaths:[oldIps objectsForKeys:[rowInfo.deleted allObjects]
                                                notFoundMarker:[NSNull null]]
                       withRowAnimation:deleteAnimation];
-    if ([_tableView respondsToSelector:@selector(moveRowAtIndexPath:toIndexPath:)]) {
+    if ([self respondsToSelector:@selector(moveRowAtIndexPath:toIndexPath:)]) {
         for (NSObject *key in rowInfo.moved) {
-            [_tableView moveRowAtIndexPath:[oldIps objectForKey:key]
+            [self moveRowAtIndexPath:[oldIps objectForKey:key]
                                toIndexPath:[newIps objectForKey:key]];
         }
     }
-    [_tableView endUpdates];
-    NSArray *nowVisibleIps = [_tableView indexPathsForVisibleRows];
+    [self endUpdates];
+    NSArray *nowVisibleIps = [self indexPathsForVisibleRows];
     NSMutableArray *toReload = [NSMutableArray array];
     for (NSIndexPath *ip in thenVisibleIps) {
         BumpTableRow *oldRow = [[self class] rowForIndexPath:ip model:oldModel];
@@ -344,7 +341,7 @@
         if (newIp && [nowVisibleIps containsObject:newIp]) {
             BumpTableRow *row = [[self class] rowForIndexPath:newIp model:newModel];
             if ([[row reuseIdentifier] isEqualToString:[oldRow reuseIdentifier]]) {
-                UITableViewCell *cell = [_tableView cellForRowAtIndexPath:newIp];
+                UITableViewCell *cell = [self cellForRowAtIndexPath:newIp];
                 if (row.customizer) {
                     row.customizer(cell);
                 }
@@ -354,7 +351,7 @@
         }
     }
     if ([toReload count]) {
-        [_tableView reloadRowsAtIndexPaths:toReload
+        [self reloadRowsAtIndexPaths:toReload
                           withRowAnimation:UITableViewRowAnimationNone];
     }
 }
@@ -370,7 +367,7 @@
         return;
     }
     _model = model;
-    [_tableView reloadData];
+    [self reloadData];
 }
 
 #pragma mark - Pausing Updates
@@ -391,85 +388,13 @@
     }
 }
 
-#pragma mark - UITableView/UIScrollView property passthroughs
-
-- (void)setTableHeaderView:(UIView *)tableHeaderView {
-    _tableView.tableHeaderView = tableHeaderView;
-}
-
-- (void)setTableFooterView:(UIView *)tableFooterView {
-    _tableView.tableFooterView = tableFooterView;
-}
-
-- (void)setScrollingIndicatorInsets:(UIEdgeInsets)scrollingIndicatorInsets {
-    _tableView.scrollIndicatorInsets = scrollingIndicatorInsets;
-}
-
-- (UIEdgeInsets)scrollingIndicatorInsets {
-    return _tableView.scrollIndicatorInsets;
-}
-
-- (void)setContentInset:(UIEdgeInsets)contentInset {
-    _tableView.contentInset = contentInset;
-}
-
-- (UIEdgeInsets)contentInset {
-    return _tableView.contentInset;
-}
-
-- (void)setContentOffset:(CGPoint)contentOffset {
-    _tableView.contentOffset = contentOffset;
-}
-
-- (CGPoint)contentOffset {
-    return _tableView.contentOffset;
-}
-
-- (UITableViewCellSeparatorStyle)separatorStyle {
-    return _tableView.separatorStyle;
-}
-
-- (void)setSeparatorStyle:(UITableViewCellSeparatorStyle)style {
-    _tableView.separatorStyle = style;
-}
+#pragma mark UIScrollView modifiers
 
 - (void)scrollToBottomAnimated:(BOOL)animated {
-    CGFloat yOffset = _tableView.contentSize.height - CGRectGetHeight(_tableView.frame);
+    CGFloat yOffset = self.contentSize.height - CGRectGetHeight(self.frame);
     if (yOffset > 0) {
-        [_tableView setContentOffset:CGPointMake(0.0f, yOffset) animated:animated];
+        [self setContentOffset:CGPointMake(0.0f, yOffset) animated:animated];
     }
-}
-
-- (void)setAllowsMultipleSelection:(BOOL)allowsMultipleSelection {
-    _tableView.allowsMultipleSelection = allowsMultipleSelection;
-}
-
-- (BOOL)allowsMultipleSelection {
-    return _tableView.allowsMultipleSelection;
-}
-
-- (void)setBackgroundColor:(UIColor *)backgroundColor {
-    _tableView.backgroundColor = backgroundColor;
-}
-
-- (UIColor *)backgroundColor {
-    return _tableView.backgroundColor;
-}
-
-- (void)setBackgroundView:(UIView *)backgroundView {
-    _tableView.backgroundView = backgroundView;
-}
-
-- (UIView *)backgroundView {
-    return _tableView.backgroundView;
-}
-
-- (void)setScrollsToTop:(BOOL)scrollsToTop; {
-    _tableView.scrollsToTop = scrollsToTop;
-}
-
-- (BOOL)scrollsToTop {
-    return _tableView.scrollsToTop;
 }
 
 #pragma mark UITableViewDelegate methods
@@ -501,7 +426,7 @@
 - (void)reloadOtherTableView:(UITableView *)currentTableView {
     UITableView *other;
     if (currentTableView == _searchResultsTableView)
-        other = _tableView;
+        other = self;
     else
         other = _searchResultsTableView;
     [other reloadData];
@@ -600,8 +525,8 @@
 
 - (void)searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView {
     _searchResultsTableView = tableView;
-    _searchResultsTableView.backgroundColor = _tableView.backgroundColor;
-    _searchResultsTableView.separatorStyle = _tableView.separatorStyle;
+    _searchResultsTableView.backgroundColor = self.backgroundColor;
+    _searchResultsTableView.separatorStyle = self.separatorStyle;
     _searchResultsRows  = [NSArray array];
 }
 
