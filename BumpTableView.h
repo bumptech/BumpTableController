@@ -26,8 +26,6 @@
 
 - (id)initWithFrame:(CGRect)frame style:(UITableViewStyle)style;
 - (void)transitionToModel:(BumpTableModel *)newModel;
-- (void)pauseUpdates;
-- (void)resumeUpdates;
 
 @end
 

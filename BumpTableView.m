@@ -31,20 +31,8 @@
 @end
 
 
-/* Class for keeping track of state between pauses and resumes */
-@interface BumpPosponedUpdate : NSObject
-@property (nonatomic) BumpTableModel *model;
-@property (nonatomic) BOOL transition;
-@end
-@implementation BumpPosponedUpdate
-@end
-
-
 /* Main BumpTableView Class */
 @interface BumpTableView ()
-
-@property (nonatomic) BOOL updatesPaused;
-@property (nonatomic) BumpPosponedUpdate *postponedUpdate;
 
 // Search
 @property (nonatomic) UITableView *searchResultsTableView;
@@ -265,13 +253,6 @@
 }
 
 - (void)transitionToModel:(BumpTableModel *)newModel {
-    if (_updatesPaused) {
-        BumpPosponedUpdate *postpone = [BumpPosponedUpdate new];
-        postpone.transition = YES;
-        postpone.model = newModel;
-        _postponedUpdate = postpone;
-        return;
-    }
     BumpTableModel *oldModel = _model;
     _model = newModel;
     if (!oldModel) {
@@ -359,33 +340,8 @@
 #pragma mark - Changing the model
 
 - (void)setModel:(BumpTableModel *)model {
-    if (_updatesPaused) {
-        BumpPosponedUpdate *postpone = [BumpPosponedUpdate new];
-        postpone.transition = NO;
-        postpone.model = model;
-        _postponedUpdate = postpone;
-        return;
-    }
     _model = model;
     [self reloadData];
-}
-
-#pragma mark - Pausing Updates
-
-- (void)pauseUpdates {
-    _updatesPaused = YES;
-}
-
-- (void)resumeUpdates {
-    _updatesPaused = NO;
-    if (_postponedUpdate) {
-        if (_postponedUpdate.transition) {
-            [self transitionToModel:_postponedUpdate.model];
-        } else {
-            [self setModel:_postponedUpdate.model];
-        }
-        _postponedUpdate = nil;
-    }
 }
 
 #pragma mark UIScrollView modifiers
