@@ -43,45 +43,17 @@
 
 @implementation BumpTableView
 
-- (void)dealloc {
-    [self removeObserver:self
-                    forKeyPath:@"contentSize"
-                       context:@selector(contentSizeChanged:)];
-}
-
 - (id)initWithFrame:(CGRect)frame style:(UITableViewStyle)style {
     if ((self = [super initWithFrame:frame style:style])) {
-        self.autoresizingMask = (UIViewAutoresizingFlexibleWidth |
-                                 UIViewAutoresizingFlexibleHeight);
         self.separatorStyle = UITableViewCellSeparatorStyleNone;
         self.delegate = self;
         self.dataSource = self;
-
-        [self addObserver:self
-                     forKeyPath:@"contentSize"
-                        options:NSKeyValueObservingOptionNew
-                        context:@selector(contentSizeChanged:)];
     }
     return self;
 }
 
 - (id)initWithFrame:(CGRect)frame {
     return [self initWithFrame:frame style:UITableViewStylePlain];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context {
-    if ([keyPath isEqualToString:@"contentSize"]) {
-        [self contentSizeChanged:change];
-    }
-}
-
-- (void)contentSizeChanged:(NSDictionary *)change {
-    if (_anchorsToBottom) {
-        [self scrollToBottomAnimated:YES];
-    }
 }
 
 #pragma mark Helpers
@@ -342,15 +314,6 @@
 - (void)setModel:(BumpTableModel *)model {
     _model = model;
     [self reloadData];
-}
-
-#pragma mark UIScrollView modifiers
-
-- (void)scrollToBottomAnimated:(BOOL)animated {
-    CGFloat yOffset = self.contentSize.height - CGRectGetHeight(self.frame);
-    if (yOffset > 0) {
-        [self setContentOffset:CGPointMake(0.0f, yOffset) animated:animated];
-    }
 }
 
 #pragma mark UITableViewDelegate methods

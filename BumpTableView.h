@@ -14,7 +14,6 @@
 @interface BumpTableView : UITableView <UITableViewDelegate, UITableViewDataSource, UISearchDisplayDelegate>
 
 /* Special additions */
-@property (nonatomic) BOOL anchorsToBottom;
 @property (nonatomic) BOOL showSectionIndexTitles;
 @property (nonatomic) BOOL allowsSwipeConfirmation;
 @property (nonatomic, strong) NSString *swipeConfirmationTitle;
