@@ -56,6 +56,16 @@
     return [self initWithFrame:frame style:UITableViewStylePlain];
 }
 
+- (id) initWithCoder:(NSCoder *)aDecoder {
+
+    if ((self = [super initWithCoder:aDecoder])) {
+        self.separatorStyle = UITableViewCellSeparatorStyleNone;
+        self.delegate = self;
+        self.dataSource = self;
+    }
+    return self;
+}
+
 #pragma mark Helpers
 
 + (BumpTableSection *)sectionForIndex:(NSInteger)sectionIndex model:(BumpTableModel *)model {
