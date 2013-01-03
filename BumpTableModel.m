@@ -113,7 +113,6 @@
 @end
 
 @implementation BumpTableHeaderFooter
-@synthesize height, generator;
 
 + (id)headerFooterForHeight:(CGFloat)height generator:(BumpTableHeaderFooterGenerator)generator {
     BumpTableHeaderFooter *hf = [BumpTableHeaderFooter new];
@@ -123,13 +122,12 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<Header/Footer height: %f generator:%d\n>", height, !!generator];
+    return [NSString stringWithFormat:@"<Header/Footer height: %f generator:%d\n>", _height, !!_generator];
 }
 
 @end
 
 @implementation BumpTableSection
-@synthesize key, rows, indexTitle, header, footer;
 
 + (id)sectionWithKey:(NSObject <NSCopying>*)key rows:(NSArray*)rows {
     BumpTableSection *section = [self new];
@@ -139,7 +137,11 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<Section key:%@\nheader:%@\nfooter:%@\nrows:%@\n>", key, header, footer, [rows indentedDescription]];
+    return [NSString stringWithFormat:@"<Section key:%@\nheader:%@\nfooter:%@\nrows:%@\n>",
+            self.key,
+            self.header,
+            self.footer,
+            [self.rows indentedDescription]];
 }
 
 @end
@@ -149,7 +151,6 @@
     NSString *_searchString;
 }
 
-@synthesize key, height, reuseIdentifier, generator, customizer, onSelection, onDeselection, onTap;
 @dynamic searchString, selected;
 
 
@@ -184,7 +185,13 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<Row key:%@\nheight:%f\nreuse:%@\ngenerator:%d\ncustomizer:%d\nonSelection:%d\nonDeselection:%d\n>",
-            key, height, reuseIdentifier, !!generator, !!customizer, !!onSelection, !!onDeselection];
+            self.key,
+            self.height,
+            self.reuseIdentifier,
+            !!self.generator,
+            !!self.customizer,
+            !!self.onSelection,
+            !!self.onDeselection];
 }
 
 @end
