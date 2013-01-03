@@ -276,7 +276,7 @@
                   withRowAnimation:deleteAnimation];
     }
     // TODO: Remove this NO once section moving bugs are resolved
-    if (NO && [self respondsToSelector:@selector(moveSection:toSection:)]) {
+    if ([self respondsToSelector:@selector(moveSection:toSection:)]) {
         for (NSObject *key in sectionInfo.moved) {
             [self moveSection:[[oldS objectForKey:key] firstIndex]
                           toSection:[[newS objectForKey:key] firstIndex]];

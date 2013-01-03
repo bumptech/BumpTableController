@@ -30,6 +30,12 @@
     return [BumpTableModel modelWithSections:sections];
 }
 
+#pragma mark - Setters
+
+- (void)setSections:(NSArray *)sections {
+    _sections = [NSArray arrayWithArray:sections];
+}
+
 - (void) generateIndexPathIndex {
     self.sectionNumberForRow = [NSMutableDictionary dictionary];
     self.rowNumberForRow = [NSMutableDictionary dictionary];
