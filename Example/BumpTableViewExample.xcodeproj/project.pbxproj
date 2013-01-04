@@ -1,0 +1,328 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BE5D614A16791B990026CD23 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE5D614916791B990026CD23 /* UIKit.framework */; };
+		BE5D614C16791B990026CD23 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE5D614B16791B990026CD23 /* Foundation.framework */; };
+		BE5D614E16791B990026CD23 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE5D614D16791B990026CD23 /* CoreGraphics.framework */; };
+		BE5D615416791B990026CD23 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BE5D615216791B990026CD23 /* InfoPlist.strings */; };
+		BE5D615616791B990026CD23 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BE5D615516791B990026CD23 /* main.m */; };
+		BE5D615A16791B990026CD23 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BE5D615916791B990026CD23 /* AppDelegate.m */; };
+		BE5D615C16791B990026CD23 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = BE5D615B16791B990026CD23 /* Default.png */; };
+		BE5D615E16791B990026CD23 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BE5D615D16791B990026CD23 /* Default@2x.png */; };
+		BE5D616016791B990026CD23 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BE5D615F16791B990026CD23 /* Default-568h@2x.png */; };
+		BE5D616316791B990026CD23 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BE5D616216791B990026CD23 /* ViewController.m */; };
+		BE5D616616791B990026CD23 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE5D616416791B990026CD23 /* ViewController.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		BAB0B86E16979650004DE95E /* BumpTableModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BumpTableModel.h; path = ../../BumpTableModel.h; sourceTree = "<group>"; };
+		BAB0B86F16979650004DE95E /* BumpTableModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BumpTableModel.m; path = ../../BumpTableModel.m; sourceTree = "<group>"; };
+		BAB0B87016979650004DE95E /* BumpTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BumpTableView.h; path = ../../BumpTableView.h; sourceTree = "<group>"; };
+		BAB0B87116979650004DE95E /* BumpTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BumpTableView.m; path = ../../BumpTableView.m; sourceTree = "<group>"; };
+		BAB0B87216979650004DE95E /* BumpTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BumpTableViewCell.h; path = ../../BumpTableViewCell.h; sourceTree = "<group>"; };
+		BAB0B87316979650004DE95E /* BumpTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BumpTableViewCell.m; path = ../../BumpTableViewCell.m; sourceTree = "<group>"; };
+		BAB0B87416979650004DE95E /* NSArray+Bump.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSArray+Bump.h"; path = "../../NSArray+Bump.h"; sourceTree = "<group>"; };
+		BAB0B87516979650004DE95E /* NSArray+Bump.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSArray+Bump.m"; path = "../../NSArray+Bump.m"; sourceTree = "<group>"; };
+		BAB0B87616979650004DE95E /* NSObject+Bump.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSObject+Bump.h"; path = "../../NSObject+Bump.h"; sourceTree = "<group>"; };
+		BAB0B87716979650004DE95E /* NSObject+Bump.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSObject+Bump.m"; path = "../../NSObject+Bump.m"; sourceTree = "<group>"; };
+		BE5D614516791B990026CD23 /* BumpTableViewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BumpTableViewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE5D614916791B990026CD23 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		BE5D614B16791B990026CD23 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		BE5D614D16791B990026CD23 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		BE5D615116791B990026CD23 /* BumpTableViewExample-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BumpTableViewExample-Info.plist"; sourceTree = "<group>"; };
+		BE5D615316791B990026CD23 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BE5D615516791B990026CD23 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		BE5D615716791B990026CD23 /* BumpTableViewExample-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BumpTableViewExample-Prefix.pch"; sourceTree = "<group>"; };
+		BE5D615816791B990026CD23 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		BE5D615916791B990026CD23 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		BE5D615B16791B990026CD23 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		BE5D615D16791B990026CD23 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		BE5D615F16791B990026CD23 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		BE5D616116791B990026CD23 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		BE5D616216791B990026CD23 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		BE5D616516791B990026CD23 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BE5D614216791B990026CD23 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE5D614A16791B990026CD23 /* UIKit.framework in Frameworks */,
+				BE5D614C16791B990026CD23 /* Foundation.framework in Frameworks */,
+				BE5D614E16791B990026CD23 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BAB0B86D16979636004DE95E /* BumpTableView */ = {
+			isa = PBXGroup;
+			children = (
+				BAB0B86E16979650004DE95E /* BumpTableModel.h */,
+				BAB0B86F16979650004DE95E /* BumpTableModel.m */,
+				BAB0B87016979650004DE95E /* BumpTableView.h */,
+				BAB0B87116979650004DE95E /* BumpTableView.m */,
+				BAB0B87216979650004DE95E /* BumpTableViewCell.h */,
+				BAB0B87316979650004DE95E /* BumpTableViewCell.m */,
+				BAB0B87416979650004DE95E /* NSArray+Bump.h */,
+				BAB0B87516979650004DE95E /* NSArray+Bump.m */,
+				BAB0B87616979650004DE95E /* NSObject+Bump.h */,
+				BAB0B87716979650004DE95E /* NSObject+Bump.m */,
+			);
+			name = BumpTableView;
+			sourceTree = "<group>";
+		};
+		BE5D613A16791B990026CD23 = {
+			isa = PBXGroup;
+			children = (
+				BE5D614F16791B990026CD23 /* BumpTableViewExample */,
+				BE5D614816791B990026CD23 /* Frameworks */,
+				BE5D614616791B990026CD23 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BE5D614616791B990026CD23 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BE5D614516791B990026CD23 /* BumpTableViewExample.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BE5D614816791B990026CD23 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BE5D614916791B990026CD23 /* UIKit.framework */,
+				BE5D614B16791B990026CD23 /* Foundation.framework */,
+				BE5D614D16791B990026CD23 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BE5D614F16791B990026CD23 /* BumpTableViewExample */ = {
+			isa = PBXGroup;
+			children = (
+				BAB0B86D16979636004DE95E /* BumpTableView */,
+				BE5D615816791B990026CD23 /* AppDelegate.h */,
+				BE5D615916791B990026CD23 /* AppDelegate.m */,
+				BE5D616116791B990026CD23 /* ViewController.h */,
+				BE5D616216791B990026CD23 /* ViewController.m */,
+				BE5D616416791B990026CD23 /* ViewController.xib */,
+				BE5D615016791B990026CD23 /* Supporting Files */,
+			);
+			path = BumpTableViewExample;
+			sourceTree = "<group>";
+		};
+		BE5D615016791B990026CD23 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BE5D615116791B990026CD23 /* BumpTableViewExample-Info.plist */,
+				BE5D615216791B990026CD23 /* InfoPlist.strings */,
+				BE5D615516791B990026CD23 /* main.m */,
+				BE5D615716791B990026CD23 /* BumpTableViewExample-Prefix.pch */,
+				BE5D615B16791B990026CD23 /* Default.png */,
+				BE5D615D16791B990026CD23 /* Default@2x.png */,
+				BE5D615F16791B990026CD23 /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BE5D614416791B990026CD23 /* BumpTableViewExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BE5D616916791B990026CD23 /* Build configuration list for PBXNativeTarget "BumpTableViewExample" */;
+			buildPhases = (
+				BE5D614116791B990026CD23 /* Sources */,
+				BE5D614216791B990026CD23 /* Frameworks */,
+				BE5D614316791B990026CD23 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BumpTableViewExample;
+			productName = BumpTableViewExample;
+			productReference = BE5D614516791B990026CD23 /* BumpTableViewExample.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BE5D613C16791B990026CD23 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "Bump Technologies Inc";
+			};
+			buildConfigurationList = BE5D613F16791B990026CD23 /* Build configuration list for PBXProject "BumpTableViewExample" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = BE5D613A16791B990026CD23;
+			productRefGroup = BE5D614616791B990026CD23 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BE5D614416791B990026CD23 /* BumpTableViewExample */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BE5D614316791B990026CD23 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE5D615416791B990026CD23 /* InfoPlist.strings in Resources */,
+				BE5D615C16791B990026CD23 /* Default.png in Resources */,
+				BE5D615E16791B990026CD23 /* Default@2x.png in Resources */,
+				BE5D616016791B990026CD23 /* Default-568h@2x.png in Resources */,
+				BE5D616616791B990026CD23 /* ViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BE5D614116791B990026CD23 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE5D615616791B990026CD23 /* main.m in Sources */,
+				BE5D615A16791B990026CD23 /* AppDelegate.m in Sources */,
+				BE5D616316791B990026CD23 /* ViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		BE5D615216791B990026CD23 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BE5D615316791B990026CD23 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		BE5D616416791B990026CD23 /* ViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BE5D616516791B990026CD23 /* en */,
+			);
+			name = ViewController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		BE5D616716791B990026CD23 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		BE5D616816791B990026CD23 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BE5D616A16791B990026CD23 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "BumpTableViewExample/BumpTableViewExample-Prefix.pch";
+				INFOPLIST_FILE = "BumpTableViewExample/BumpTableViewExample-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		BE5D616B16791B990026CD23 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "BumpTableViewExample/BumpTableViewExample-Prefix.pch";
+				INFOPLIST_FILE = "BumpTableViewExample/BumpTableViewExample-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BE5D613F16791B990026CD23 /* Build configuration list for PBXProject "BumpTableViewExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BE5D616716791B990026CD23 /* Debug */,
+				BE5D616816791B990026CD23 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BE5D616916791B990026CD23 /* Build configuration list for PBXNativeTarget "BumpTableViewExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BE5D616A16791B990026CD23 /* Debug */,
+				BE5D616B16791B990026CD23 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BE5D613C16791B990026CD23 /* Project object */;
+}
