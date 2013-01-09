@@ -25,6 +25,10 @@
 }
 
 + (instancetype)modelWithRows:(NSArray *)rows {
+    [rows enumerateObjectsUsingBlock:^(id obj, NSUInteger index, BOOL *stop) {
+        NSAssert([obj isKindOfClass:[BumpTableRow class]],
+                 @"Array passed into modelWithRows: must only contain BumpTableRow objects");
+    }];
     BumpTableSection *section = [BumpTableSection sectionWithKey:@"all" rows:rows];
     NSArray *sections = [NSArray arrayWithObject:section];
     return [BumpTableModel modelWithSections:sections];
@@ -33,6 +37,10 @@
 #pragma mark - Setters
 
 - (void)setSections:(NSArray *)sections {
+    [sections enumerateObjectsUsingBlock:^(id obj, NSUInteger index, BOOL *stop) {
+        NSAssert([obj isKindOfClass:[BumpTableSection class]],
+                 @"Each element in the sections array must be a BumpTableSection");
+    }];
     _sections = [NSArray arrayWithArray:sections];
 }
 
@@ -52,7 +60,9 @@
 }
 
 - (NSIndexPath *)indexPathForRow:(BumpTableRow *)row {
-    assert(self.rowNumberForRow);
+    if(!self.rowNumberForRow) {
+        [self generateIndexPathIndex];
+    }
     return [NSIndexPath indexPathForRow:[self.rowNumberForRow[row.key] intValue]
                               inSection:[self.sectionNumberForRow[row.key] intValue]];
 }
