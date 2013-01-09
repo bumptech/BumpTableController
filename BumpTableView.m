@@ -66,7 +66,7 @@
     return self;
 }
 
-#pragma mark Helpers
+#pragma mark - Helpers
 
 + (BumpTableSection *)sectionForIndex:(NSInteger)sectionIndex model:(BumpTableModel *)model {
     return [[model sections] objectAtIndex:sectionIndex];
@@ -98,7 +98,7 @@
     return selectedRows;
 }
 
-#pragma mark - Model transitions
+#pragma mark - Transitions
 
 /**
  * This takes two arrays of keys and returns a set of mismatches
@@ -326,7 +326,7 @@
     [self reloadData];
 }
 
-#pragma mark UITableViewDelegate methods
+#pragma mark - UITableViewDelegate methods
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return [[self rowForTableView:tableView indexPath:indexPath] height];
@@ -396,7 +396,7 @@
     return _swipeConfirmationTitle;
 }
 
-#pragma mark UITableViewDataSource methods
+#pragma mark - UITableViewDataSource methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if (tableView == _searchResultsTableView) return 1;

@@ -18,13 +18,13 @@
 @implementation BumpTableModel : NSObject
 @dynamic selectedRows;
 
-+ (id)modelWithSections:(NSArray*)sections {
++ (instancetype)modelWithSections:(NSArray *)sections {
     BumpTableModel *model = [self new];
     model.sections = sections;
     return model;
 }
 
-+ (id)modelWithRows:(NSArray*)rows {
++ (instancetype)modelWithRows:(NSArray *)rows {
     BumpTableSection *section = [BumpTableSection sectionWithKey:@"all" rows:rows];
     NSArray *sections = [NSArray arrayWithObject:section];
     return [BumpTableModel modelWithSections:sections];
@@ -36,7 +36,7 @@
     _sections = [NSArray arrayWithArray:sections];
 }
 
-- (void) generateIndexPathIndex {
+- (void)generateIndexPathIndex {
     self.sectionNumberForRow = [NSMutableDictionary dictionary];
     self.rowNumberForRow = [NSMutableDictionary dictionary];
 
@@ -97,7 +97,6 @@
             }
         }];
     }];
-
     return results;
 }
 
@@ -120,7 +119,7 @@
 
 @implementation BumpTableHeaderFooter
 
-+ (id)headerFooterForHeight:(CGFloat)height generator:(BumpTableHeaderFooterGenerator)generator {
++ (instancetype)headerFooterForHeight:(CGFloat)height generator:(BumpTableHeaderFooterGenerator)generator {
     BumpTableHeaderFooter *hf = [BumpTableHeaderFooter new];
     hf.height = height;
     hf.generator = generator;
@@ -135,7 +134,7 @@
 
 @implementation BumpTableSection
 
-+ (id)sectionWithKey:(NSObject <NSCopying>*)key rows:(NSArray*)rows {
++ (instancetype)sectionWithKey:(NSObject <NSCopying>*)key rows:(NSArray*)rows {
     BumpTableSection *section = [self new];
     section.key = key;
     section.rows = rows;
@@ -159,11 +158,10 @@
 
 @dynamic searchString, selected;
 
-
-+ (id)rowWithKey:(NSObject <NSCopying>*)key
-          height:(CGFloat)height
- reuseIdentifier:(NSString *)reuseIdentifier
-       generator:(BumpTableCellGenerator)generator {
++ (instancetype)rowWithKey:(NSObject <NSCopying>*)key
+                    height:(CGFloat)height
+           reuseIdentifier:(NSString *)reuseIdentifier
+                 generator:(BumpTableCellGenerator)generator {
     BumpTableRow *row = [self new];
     row.key = key;
     row.height = height;

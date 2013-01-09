@@ -12,6 +12,8 @@
 
 @implementation BumpTableViewCell
 
+#pragma mark - Lifecycle
+
 - (id)initWithReuseIdentifier:(NSString *)reuseIdentifier {
     return [self initWithReuseIdentifier:reuseIdentifier initialHeight:DEFAULT_HEIGHT];
 }

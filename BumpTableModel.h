@@ -11,31 +11,129 @@
 @class BumpTableSection;
 @class BumpTableRow;
 
+
+/*!
+ @class BumpTableModel
+
+ @abstract
+ The `BumpTableModel` object is the model backing for a BumpTableView
+
+ @discussion
+
+ */
 @interface BumpTableModel : NSObject
-@property (nonatomic, strong) NSArray *sections;
+
+/*!
+ @abstract
+ The table section objects that make up the model
+ 
+ @discussion
+ This should only contain `BumpTableSection` objects
+ */
+@property (nonatomic, copy) NSArray *sections;
+
+/*!
+ @abstract
+ Array containing the selected table rows
+ */
 @property (readonly) NSArray *selectedRows;
-+ (id)modelWithSections:(NSArray*)sections;
-+ (id)modelWithRows:(NSArray*)rows;
+
+/*!
+ @abstract
+ Creates and returns an model object configured with the sections provided
+
+ @param sections    Array of `BumpTableSection` objects
+ */
++ (instancetype)modelWithSections:(NSArray *)sections;
+
+/*!
+ @abstract
+ Creates and returns an model object configured with the rows provided 
+ inside of a single section with the key "all"
+
+ @param rows        Array of `BumpTableRow` objects
+ */
++ (instancetype)modelWithRows:(NSArray *)rows;
+
+/*!
+ @abstract
+
+ */
 - (NSDictionary *)sectionIndexes;
+
+/*!
+ @abstract
+
+ */
 - (NSDictionary *)rowIndexPaths;
+
+/*!
+ @abstract
+
+ @param
+ */
 - (BumpTableModel *)modelForSearchString:(NSString *)searchString;
+
+/*!
+ @abstract
+
+ @param
+ */
 - (NSMutableArray *)rowsForSearchString:(NSString *)searchString;
 
-- (void) generateIndexPathIndex;
-// generateIndexPathIndex must be called prior to use.
+/*!
+ @abstract
+
+ @param
+ */
 - (NSIndexPath *)indexPathForRow:(BumpTableRow *)row;
 
 @end
 
+
+/*!
+ @typedef BumpTableHeaderFooterGenerator
+
+ @abstract
+
+ @discussion
+
+ */
 typedef UIView *(^BumpTableHeaderFooterGenerator)(void);
+
+/*!
+ @typedef BumpTableHeaderFooterUpdater
+
+ @abstract
+
+ @discussion
+
+ */
 typedef void (^BumpTableHeaderFooterUpdater)(UIView *header);
 
+/*!
+ @class
+
+ @abstract
+
+ @discussion
+
+ */
 @interface BumpTableHeaderFooter : NSObject
 @property (nonatomic) CGFloat height;
 @property (nonatomic, copy) BumpTableHeaderFooterGenerator generator;
-+ (id)headerFooterForHeight:(CGFloat)height generator:(BumpTableHeaderFooterGenerator)generator;
++ (instancetype)headerFooterForHeight:(CGFloat)height generator:(BumpTableHeaderFooterGenerator)generator;
 @end
 
+
+/*!
+ @class
+
+ @abstract
+
+ @discussion
+
+ */
 @interface BumpTableSection : NSObject
 // Must be unique in a table, specific one section. Used to animate transitions
 @property (nonatomic, strong) NSObject <NSCopying> *key;
@@ -46,14 +144,58 @@ typedef void (^BumpTableHeaderFooterUpdater)(UIView *header);
 // Header
 @property (nonatomic, strong) BumpTableHeaderFooter *header;
 @property (nonatomic, strong) BumpTableHeaderFooter *footer;
-+ (id)sectionWithKey:(NSObject<NSCopying>*)key rows:(NSArray*)rows;
++ (instancetype)sectionWithKey:(NSObject<NSCopying>*)key rows:(NSArray*)rows;
 @end
 
+
+/*!
+ @typedef BumpTableHeaderFooterUpdater
+
+ @abstract
+
+ @discussion
+
+ */
 typedef UITableViewCell *(^BumpTableCellGenerator)(NSString *reuseIdentifier);
+
+/*!
+ @typedef BumpTableHeaderFooterUpdater
+
+ @abstract
+
+ @discussion
+
+ */
 typedef void (^BumpTableCellUpdater)(id cell);
+
+/*!
+ @typedef BumpTableHeaderFooterUpdater
+
+ @abstract
+
+ @discussion
+
+ */
 typedef void (^BumpTableCellOnSelection)(id cell);
+
+/*!
+ @typedef BumpTableHeaderFooterUpdater
+
+ @abstract
+
+ @discussion
+
+ */
 typedef void (^BumpTableCellOnSwipeConfirmation)(id cell);
 
+/*!
+ @class
+
+ @abstract
+
+ @discussion
+
+ */
 @interface BumpTableRow : NSObject
 // Must be unique in a table, specific to the data of one row. Used to animate transitions
 @property (nonatomic, strong) NSObject <NSCopying> *key;
@@ -88,9 +230,16 @@ typedef void (^BumpTableCellOnSwipeConfirmation)(id cell);
 // This gets called when the row's swipe confirmation button is pressed
 @property (nonatomic, copy) BumpTableCellOnSwipeConfirmation onSwipeConfirmation;
 
+/*!
+ @abstract
 
-+ (id)rowWithKey:(NSObject*)key
-          height:(CGFloat)height
- reuseIdentifier:(NSString *)reuseIdentifier
-       generator:(BumpTableCellGenerator)generator;
+ @param
+ @param
+ @param
+ @param 
+ */
++ (instancetype)rowWithKey:(NSObject*)key
+                    height:(CGFloat)height
+           reuseIdentifier:(NSString *)reuseIdentifier
+                 generator:(BumpTableCellGenerator)generator;
 @end

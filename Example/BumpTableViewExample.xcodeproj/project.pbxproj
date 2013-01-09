@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BA00FAEA169E550E0018F290 /* BumpTableModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BAB0B86F16979650004DE95E /* BumpTableModel.m */; };
+		BA00FAEB169E550E0018F290 /* BumpTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = BAB0B87116979650004DE95E /* BumpTableView.m */; };
+		BA00FAEC169E550E0018F290 /* BumpTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BAB0B87316979650004DE95E /* BumpTableViewCell.m */; };
+		BA00FAED169E550E0018F290 /* NSArray+Bump.m in Sources */ = {isa = PBXBuildFile; fileRef = BAB0B87516979650004DE95E /* NSArray+Bump.m */; };
+		BA00FAEE169E550E0018F290 /* NSObject+Bump.m in Sources */ = {isa = PBXBuildFile; fileRef = BAB0B87716979650004DE95E /* NSObject+Bump.m */; };
 		BE5D614A16791B990026CD23 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE5D614916791B990026CD23 /* UIKit.framework */; };
 		BE5D614C16791B990026CD23 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE5D614B16791B990026CD23 /* Foundation.framework */; };
 		BE5D614E16791B990026CD23 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE5D614D16791B990026CD23 /* CoreGraphics.framework */; };
@@ -204,6 +209,11 @@
 				BE5D615616791B990026CD23 /* main.m in Sources */,
 				BE5D615A16791B990026CD23 /* AppDelegate.m in Sources */,
 				BE5D616316791B990026CD23 /* ViewController.m in Sources */,
+				BA00FAEA169E550E0018F290 /* BumpTableModel.m in Sources */,
+				BA00FAEB169E550E0018F290 /* BumpTableView.m in Sources */,
+				BA00FAEC169E550E0018F290 /* BumpTableViewCell.m in Sources */,
+				BA00FAED169E550E0018F290 /* NSArray+Bump.m in Sources */,
+				BA00FAEE169E550E0018F290 /* NSObject+Bump.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
