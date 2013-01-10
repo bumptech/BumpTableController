@@ -57,34 +57,39 @@
 
 /*!
  @abstract
-
+ Returns a dictionary containing the `NSIndexPath` of each section keyed on their unique keys
  */
 - (NSDictionary *)sectionIndexes;
 
 /*!
  @abstract
-
+ Returns a dictionary containing the `NSIndexPath` of each row, keyed on their unique keys
  */
 - (NSDictionary *)rowIndexPaths;
 
 /*!
  @abstract
+ Returns an array that contains each table-row, resulting from a filter of all
+ rows in the current model using the given string
 
- @param
- */
-- (BumpTableModel *)modelForSearchString:(NSString *)searchString;
-
-/*!
- @abstract
-
- @param
+ @param searchString    The string to use to filter
  */
 - (NSMutableArray *)rowsForSearchString:(NSString *)searchString;
 
 /*!
  @abstract
+ Same as rowsForSearchString, except the resulting filtered rows are wrapped 
+ in a `BumpTableModel` and returned
 
- @param
+ @param searchString    The string to use to filter
+ */
+- (BumpTableModel *)modelForSearchString:(NSString *)searchString;
+
+/*!
+ @abstract
+ Returns the `NSIndexPath` for a given row. Will return nil if row does not exist in this table
+
+ @param row     A table row that exists in this model
  */
 - (NSIndexPath *)indexPathForRow:(BumpTableRow *)row;
 
@@ -95,39 +100,44 @@
  @typedef BumpTableHeaderFooterGenerator
 
  @abstract
-
- @discussion
-
+ Block used to create and return a UIView to be used as a table header or footer
  */
 typedef UIView *(^BumpTableHeaderFooterGenerator)(void);
 
 /*!
- @typedef BumpTableHeaderFooterUpdater
+ @class BmpTableHeaderFooter
 
  @abstract
-
- @discussion
-
- */
-typedef void (^BumpTableHeaderFooterUpdater)(UIView *header);
-
-/*!
- @class
-
- @abstract
-
- @discussion
-
+ Model for a table header or footer
  */
 @interface BumpTableHeaderFooter : NSObject
+
+/*!
+ @abstract
+ the height of the header or footer
+ */
 @property (nonatomic) CGFloat height;
+
+/*!
+ @abstract
+ The generator that it used to create the table header or footer
+ */
 @property (nonatomic, copy) BumpTableHeaderFooterGenerator generator;
+
+/*!
+ @abstract
+ Creates and returns a headerFooter model object, to be set on a table model
+
+ @param height      The height of the header or footer view
+ @param generator   The block used to create the header or footer view
+ */
 + (instancetype)headerFooterForHeight:(CGFloat)height generator:(BumpTableHeaderFooterGenerator)generator;
+
 @end
 
 
 /*!
- @class
+ @class BumpTableSection
 
  @abstract
 
@@ -135,16 +145,46 @@ typedef void (^BumpTableHeaderFooterUpdater)(UIView *header);
 
  */
 @interface BumpTableSection : NSObject
-// Must be unique in a table, specific one section. Used to animate transitions
+
+/*!
+ @abstract
+ Must be unique in a table, specific within section. Used to animate transitions
+ */
 @property (nonatomic, strong) NSObject <NSCopying> *key;
-// BumpTableRow objects, should not be nil
+
+/*!
+ @abstract
+ Array of table row objects contained in this section
+ */
 @property (nonatomic, strong) NSArray *rows;
-// Scrubber Label
+
+/*!
+ @abstract
+ The index title to use if the table has scrubber enabled
+ */
 @property (nonatomic, strong) NSString *indexTitle;
-// Header
+
+/*!
+ @abstract
+ Header model for table
+ */
 @property (nonatomic, strong) BumpTableHeaderFooter *header;
+
+/*!
+ @abstract
+ Footer model for table
+ */
 @property (nonatomic, strong) BumpTableHeaderFooter *footer;
+
+/*!
+ @abstract
+ Creates and returns a table section with the given key and rows
+
+ @param key     A unique key used to identify this section
+ @param rows    The rows that should be in this section (cannot be nil)
+ */
 + (instancetype)sectionWithKey:(NSObject<NSCopying>*)key rows:(NSArray*)rows;
+
 @end
 
 

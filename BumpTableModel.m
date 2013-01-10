@@ -63,8 +63,13 @@
     if(!self.rowNumberForRow) {
         [self generateIndexPathIndex];
     }
-    return [NSIndexPath indexPathForRow:[self.rowNumberForRow[row.key] intValue]
-                              inSection:[self.sectionNumberForRow[row.key] intValue]];
+    NSNumber *rowNumber = self.rowNumberForRow[row.key];
+    NSNumber *sectionNumber = self.sectionNumberForRow[row.key];
+    if (rowNumber && sectionNumber) {
+        return [NSIndexPath indexPathForRow:[rowNumber intValue]
+                                  inSection:[sectionNumber intValue]];
+    }
+    return nil;
 }
 
 - (NSDictionary *)sectionIndexes {
@@ -93,10 +98,6 @@
     return indexPaths;
 }
 
-- (BumpTableModel *)modelForSearchString:(NSString *)searchString {
-    return [BumpTableModel modelWithRows:[self rowsForSearchString:searchString]];
-}
-
 - (NSMutableArray *)rowsForSearchString:(NSString *)searchString {
     searchString = [searchString lowercaseString];
     NSMutableArray *results = [NSMutableArray array];
@@ -108,6 +109,10 @@
         }];
     }];
     return results;
+}
+
+- (BumpTableModel *)modelForSearchString:(NSString *)searchString {
+    return [BumpTableModel modelWithRows:[self rowsForSearchString:searchString]];
 }
 
 - (NSArray *)selectedRows {
