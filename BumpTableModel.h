@@ -11,7 +11,6 @@
 @class BumpTableSection;
 @class BumpTableRow;
 
-
 /*!
  @class BumpTableModel
 
@@ -39,6 +38,7 @@
 @property (readonly) NSArray *selectedRows;
 
 /*!
+ @method
  @abstract
  Creates and returns an model object configured with the sections provided
 
@@ -47,6 +47,7 @@
 + (instancetype)modelWithSections:(NSArray *)sections;
 
 /*!
+ @method
  @abstract
  Creates and returns an model object configured with the rows provided 
  inside of a single section with the key "all"
@@ -56,18 +57,21 @@
 + (instancetype)modelWithRows:(NSArray *)rows;
 
 /*!
+ @method
  @abstract
  Returns a dictionary containing the `NSIndexPath` of each section keyed on their unique keys
  */
 - (NSDictionary *)sectionIndexes;
 
 /*!
+ @method
  @abstract
  Returns a dictionary containing the `NSIndexPath` of each row, keyed on their unique keys
  */
 - (NSDictionary *)rowIndexPaths;
 
 /*!
+ @method
  @abstract
  Returns an array that contains each table-row, resulting from a filter of all
  rows in the current model using the given string
@@ -77,6 +81,7 @@
 - (NSMutableArray *)rowsForSearchString:(NSString *)searchString;
 
 /*!
+ @method
  @abstract
  Same as rowsForSearchString, except the resulting filtered rows are wrapped 
  in a `BumpTableModel` and returned
@@ -86,6 +91,7 @@
 - (BumpTableModel *)modelForSearchString:(NSString *)searchString;
 
 /*!
+ @method
  @abstract
  Returns the `NSIndexPath` for a given row. Will return nil if row does not exist in this table
 
@@ -125,6 +131,7 @@ typedef UIView *(^BumpTableHeaderFooterGenerator)(void);
 @property (nonatomic, copy) BumpTableHeaderFooterGenerator generator;
 
 /*!
+ @method
  @abstract
  Creates and returns a headerFooter model object, to be set on a table model
 
@@ -175,6 +182,7 @@ typedef UIView *(^BumpTableHeaderFooterGenerator)(void);
 @property (nonatomic, strong) BumpTableHeaderFooter *footer;
 
 /*!
+ @method
  @abstract
  Creates and returns a table section with the given key and rows
 
@@ -312,6 +320,7 @@ typedef void (^BumpTableCellOnSwipeConfirmation)(id cell);
 @property (nonatomic, copy) BumpTableCellOnSwipeConfirmation onSwipeConfirmation;
 
 /*!
+ @method
  @abstract
  Creates and returns a table row with the given information
 

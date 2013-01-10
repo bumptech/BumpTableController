@@ -9,27 +9,25 @@
 #import "BumpTableModel.h"
 #import "BumpTableViewCell.h"
 
-@protocol BumpTableViewDelegate;
 
+/*!
+ @class BumpTableView
+
+ @abstract
+
+ */
 @interface BumpTableView : UITableView <UITableViewDelegate, UITableViewDataSource, UISearchDisplayDelegate>
 
-/* Special additions */
-@property (nonatomic) BOOL showSectionIndexTitles;
-@property (nonatomic) BOOL allowsSwipeConfirmation;
-@property (nonatomic, strong) NSString *swipeConfirmationTitle;
-@property (nonatomic, strong) UISearchBar *searchBar;
-@property (nonatomic, assign) id <BumpTableViewDelegate>tableViewDelegate;
+@property (nonatomic) BOOL showSectionIndexTitles;                          // show scrubber. Default is NO
+@property (nonatomic) BOOL allowsSwipeConfirmation;                         // show button over cell when user swipes. Default is NO 
+@property (nonatomic) NSString *swipeConfirmationTitle;                     // title of swipe button. Default is "Delete"
 
-/* Model */
-@property (nonatomic, strong) BumpTableModel *model;
+@property (nonatomic) UISearchBar *searchBar;                               // upon first access, the search bar is added to the table header
 
-- (id)initWithFrame:(CGRect)frame style:(UITableViewStyle)style;
-- (void)transitionToModel:(BumpTableModel *)newModel;
+// Model changes
+@property (nonatomic) BumpTableModel *model;                                // setting a model will automatically call reload the data using the new model (not animated)
+- (void)transitionToModel:(BumpTableModel *)newModel;                       // animated version of setModel: using UITableViewRowAnimationTop for all row insertions/deletions
 
-@end
-
-@protocol BumpTableViewDelegate <NSObject>
-@optional
-- (void)searchBarWillDismiss;
-- (void)searchBarDidDismiss;
+@property (nonatomic) UITableViewRowAnimation transtionAnimation;           // animation transition to use for row insertions/deletions (does not affect move animations)
+                                                                            // Default is UITableViewRowAnimationTop
 @end

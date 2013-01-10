@@ -53,6 +53,7 @@
     // set up table view
     _tableView = [[BumpTableView alloc] initWithFrame:self.view.bounds];
     _tableView.allowsSwipeConfirmation = YES;
+    _tableView.transtionAnimation = UITableViewRowAnimationFade;
 
     [self updateView];
     [self enableSearching];
@@ -164,7 +165,7 @@
 - (void)enableSearching {
     if (!_search) {
         _search = [[UISearchDisplayController alloc] initWithSearchBar:_tableView.searchBar
-                                                   contentsController:self];
+                                                    contentsController:self];
         _search.searchResultsDataSource  = _tableView;
         _search.searchResultsDelegate = _tableView;
         _search.delegate = _tableView;

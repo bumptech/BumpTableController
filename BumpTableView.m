@@ -33,21 +33,17 @@
 
 /* Main BumpTableView Class */
 @interface BumpTableView ()
-
 // Search
 @property (nonatomic) UITableView *searchResultsTableView;
 @property (nonatomic) NSString *searchString;
 @property (nonatomic) NSArray *searchResultsRows;
-
 @end
 
 @implementation BumpTableView
 
 - (id)initWithFrame:(CGRect)frame style:(UITableViewStyle)style {
     if ((self = [super initWithFrame:frame style:style])) {
-        self.separatorStyle = UITableViewCellSeparatorStyleNone;
-        self.delegate = self;
-        self.dataSource = self;
+        [self commonInit];
     }
     return self;
 }
@@ -57,13 +53,17 @@
 }
 
 - (id) initWithCoder:(NSCoder *)aDecoder {
-
     if ((self = [super initWithCoder:aDecoder])) {
-        self.separatorStyle = UITableViewCellSeparatorStyleNone;
-        self.delegate = self;
-        self.dataSource = self;
+        [self commonInit];
     }
     return self;
+}
+
+- (void)commonInit {
+    self.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.delegate = self;
+    self.dataSource = self;
+    self.transtionAnimation = UITableViewRowAnimationTop;
 }
 
 #pragma mark - Helpers
@@ -98,7 +98,103 @@
     return selectedRows;
 }
 
-#pragma mark - Transitions
+#pragma mark - Model changing
+
+- (void)setModel:(BumpTableModel *)model {
+    _model = model;
+    [self reloadData];
+}
+
+- (void)transitionToModel:(BumpTableModel *)newModel {
+    UITableViewRowAnimation insertAnimation = _transtionAnimation;
+    UITableViewRowAnimation deleteAnimation = _transtionAnimation;
+    BumpTableModel *oldModel = _model;
+    _model = newModel;
+    if (!oldModel) {
+        [self reloadData];
+        return;
+    }
+    if (!newModel) {
+        [self deleteSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, oldModel.sections.count)]
+            withRowAnimation:deleteAnimation];
+        return;
+    }
+
+    BumpTransition *sectionInfo = [[self class] sectionTransitionFrom:oldModel.sections
+                                                                   to:newModel.sections];
+
+    NSDictionary *oldS = [oldModel sectionIndexes];//key->indexSet
+    NSAssert(oldS.count == oldModel.sections.count, @"the old table model has non-unique section keys");
+    NSDictionary *newS = [newModel sectionIndexes];
+    NSAssert(newS.count == newModel.sections.count, @"the new table model has non-unique section keys");
+    NSDictionary *oldIps = [oldModel rowIndexPaths];//key->indexPath if its a row
+    NSAssert(oldIps.count == oldS.count + [oldModel.sections sumWithBlock:^int(BumpTableSection *s) { return s.rows.count; }], @"the old table model has non-unique row keys");
+    NSDictionary *newIps = [newModel rowIndexPaths];//key->dict of k->ip if it's a section
+    NSAssert(newIps.count == newS.count + [newModel.sections sumWithBlock:^int(BumpTableSection *s) { return s.rows.count; }], @"the new table model has non-unique row keys");
+
+    BumpTransition *rowInfo = [[self class] rowTransitionFrom:oldModel to:newModel
+                                                 fromSections:oldS toSections:newS
+                                                     fromRows:oldIps toRows:newIps
+                                                 sameSections:sectionInfo.mutual];
+    NSArray *thenVisibleIps = [self indexPathsForVisibleRows];
+    [self beginUpdates];
+    for (NSObject *key in sectionInfo.inserted) {
+        [self insertSections:[newS objectForKey:key]
+                  withRowAnimation:insertAnimation];
+    }
+    for (NSObject *key in sectionInfo.deleted) {
+        [self deleteSections:[oldS objectForKey:key]
+                  withRowAnimation:deleteAnimation];
+    }
+    // TODO: Remove this NO once section moving bugs are resolved
+    if ([self respondsToSelector:@selector(moveSection:toSection:)]) {
+        for (NSObject *key in sectionInfo.moved) {
+            [self moveSection:[[oldS objectForKey:key] firstIndex]
+                          toSection:[[newS objectForKey:key] firstIndex]];
+        }
+    }
+    [self insertRowsAtIndexPaths:[newIps objectsForKeys:[rowInfo.inserted allObjects]
+                                               notFoundMarker:[NSNull null]]
+                      withRowAnimation:insertAnimation];
+    [self deleteRowsAtIndexPaths:[oldIps objectsForKeys:[rowInfo.deleted allObjects]
+                                               notFoundMarker:[NSNull null]]
+                      withRowAnimation:deleteAnimation];
+    if ([self respondsToSelector:@selector(moveRowAtIndexPath:toIndexPath:)]) {
+        for (NSObject *key in rowInfo.moved) {
+            [self moveRowAtIndexPath:[oldIps objectForKey:key]
+                               toIndexPath:[newIps objectForKey:key]];
+        }
+    }
+    [self endUpdates];
+    NSArray *nowVisibleIps = [self indexPathsForVisibleRows];
+    NSMutableArray *toReload = [NSMutableArray array];
+    for (NSIndexPath *ip in thenVisibleIps) {
+        BumpTableRow *oldRow = [[self class] rowForIndexPath:ip model:oldModel];
+        NSObject *key = [oldRow key];
+        NSIndexPath *newIp = [newIps objectForKey:key];
+        if (newIp && [nowVisibleIps containsObject:newIp]) {
+            BumpTableRow *row = [[self class] rowForIndexPath:newIp model:newModel];
+            if ([[row reuseIdentifier] isEqualToString:[oldRow reuseIdentifier]]) {
+                UITableViewCell *cell = [self cellForRowAtIndexPath:newIp];
+                if (row.customizer) {
+                    row.customizer(cell);
+                }
+            } else {
+                [toReload addObject:newIp];
+            }
+        }
+    }
+    if ([toReload count]) {
+        [self reloadRowsAtIndexPaths:toReload
+                          withRowAnimation:UITableViewRowAnimationNone];
+    }
+}
+
+#pragma mark - Transitions helpers
+
+- (void)setTranstionAnimation:(UITableViewRowAnimation)transtionAnimation {
+    _transtionAnimation = transtionAnimation;
+}
 
 /**
  * This takes two arrays of keys and returns a set of mismatches
@@ -232,98 +328,6 @@
     rowTransition.mutual = mutualRows;
     rowTransition.moved = movedRows;
     return rowTransition;
-}
-
-- (void)transitionToModel:(BumpTableModel *)newModel {
-    BumpTableModel *oldModel = _model;
-    _model = newModel;
-    if (!oldModel) {
-        [self reloadData];
-        return;
-    }
-    if (!newModel) {
-        [self deleteSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, oldModel.sections.count)]
-                  withRowAnimation:UITableViewRowAnimationTop];
-        return;
-    }
-
-    BumpTransition *sectionInfo = [[self class] sectionTransitionFrom:oldModel.sections
-                                                                   to:newModel.sections];
-
-    NSDictionary *oldS = [oldModel sectionIndexes];//key->indexSet
-    NSAssert(oldS.count == oldModel.sections.count, @"the old table model has non-unique section keys");
-    NSDictionary *newS = [newModel sectionIndexes];
-    NSAssert(newS.count == newModel.sections.count, @"the new table model has non-unique section keys");
-    NSDictionary *oldIps = [oldModel rowIndexPaths];//key->indexPath if its a row
-    NSAssert(oldIps.count == oldS.count + [oldModel.sections sumWithBlock:^int(BumpTableSection *s) { return s.rows.count; }], @"the old table model has non-unique row keys");
-    NSDictionary *newIps = [newModel rowIndexPaths];//key->dict of k->ip if it's a section
-    NSAssert(newIps.count == newS.count + [newModel.sections sumWithBlock:^int(BumpTableSection *s) { return s.rows.count; }], @"the new table model has non-unique row keys");
-
-    BumpTransition *rowInfo = [[self class] rowTransitionFrom:oldModel to:newModel
-                                                 fromSections:oldS toSections:newS
-                                                     fromRows:oldIps toRows:newIps
-                                                 sameSections:sectionInfo.mutual];
-    NSArray *thenVisibleIps = [self indexPathsForVisibleRows];
-    UITableViewRowAnimation insertAnimation = UITableViewRowAnimationTop;
-    UITableViewRowAnimation deleteAnimation = UITableViewRowAnimationTop;
-    [self beginUpdates];
-    for (NSObject *key in sectionInfo.inserted) {
-        [self insertSections:[newS objectForKey:key]
-                  withRowAnimation:insertAnimation];
-    }
-    for (NSObject *key in sectionInfo.deleted) {
-        [self deleteSections:[oldS objectForKey:key]
-                  withRowAnimation:deleteAnimation];
-    }
-    // TODO: Remove this NO once section moving bugs are resolved
-    if ([self respondsToSelector:@selector(moveSection:toSection:)]) {
-        for (NSObject *key in sectionInfo.moved) {
-            [self moveSection:[[oldS objectForKey:key] firstIndex]
-                          toSection:[[newS objectForKey:key] firstIndex]];
-        }
-    }
-    [self insertRowsAtIndexPaths:[newIps objectsForKeys:[rowInfo.inserted allObjects]
-                                               notFoundMarker:[NSNull null]]
-                      withRowAnimation:insertAnimation];
-    [self deleteRowsAtIndexPaths:[oldIps objectsForKeys:[rowInfo.deleted allObjects]
-                                               notFoundMarker:[NSNull null]]
-                      withRowAnimation:deleteAnimation];
-    if ([self respondsToSelector:@selector(moveRowAtIndexPath:toIndexPath:)]) {
-        for (NSObject *key in rowInfo.moved) {
-            [self moveRowAtIndexPath:[oldIps objectForKey:key]
-                               toIndexPath:[newIps objectForKey:key]];
-        }
-    }
-    [self endUpdates];
-    NSArray *nowVisibleIps = [self indexPathsForVisibleRows];
-    NSMutableArray *toReload = [NSMutableArray array];
-    for (NSIndexPath *ip in thenVisibleIps) {
-        BumpTableRow *oldRow = [[self class] rowForIndexPath:ip model:oldModel];
-        NSObject *key = [oldRow key];
-        NSIndexPath *newIp = [newIps objectForKey:key];
-        if (newIp && [nowVisibleIps containsObject:newIp]) {
-            BumpTableRow *row = [[self class] rowForIndexPath:newIp model:newModel];
-            if ([[row reuseIdentifier] isEqualToString:[oldRow reuseIdentifier]]) {
-                UITableViewCell *cell = [self cellForRowAtIndexPath:newIp];
-                if (row.customizer) {
-                    row.customizer(cell);
-                }
-            } else {
-                [toReload addObject:newIp];
-            }
-        }
-    }
-    if ([toReload count]) {
-        [self reloadRowsAtIndexPaths:toReload
-                          withRowAnimation:UITableViewRowAnimationNone];
-    }
-}
-
-#pragma mark - Changing the model
-
-- (void)setModel:(BumpTableModel *)model {
-    _model = model;
-    [self reloadData];
 }
 
 #pragma mark - UITableViewDelegate methods
@@ -462,21 +466,6 @@
 
 - (void)searchDisplayController:(UISearchDisplayController *)controller willUnloadSearchResultsTableView:(UITableView *)tableView {
     _searchResultsTableView = nil;
-}
-
-- (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller {
-}
-
-- (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller {
-    if ([_tableViewDelegate respondsToSelector:@selector(searchBarDidDismiss)]) {
-        [_tableViewDelegate searchBarDidDismiss];
-    }
-}
-
-- (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller {
-    if ([_tableViewDelegate respondsToSelector:@selector(searchBarWillDismiss)]) {
-        [_tableViewDelegate searchBarWillDismiss];
-    }
 }
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
