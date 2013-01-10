@@ -140,9 +140,7 @@ typedef UIView *(^BumpTableHeaderFooterGenerator)(void);
  @class BumpTableSection
 
  @abstract
-
- @discussion
-
+ The model object used to describe a table section
  */
 @interface BumpTableSection : NSObject
 
@@ -189,7 +187,7 @@ typedef UIView *(^BumpTableHeaderFooterGenerator)(void);
 
 
 /*!
- @typedef BumpTableHeaderFooterUpdater
+ @typedef BumpTableCellGenerator
 
  @abstract
 
@@ -199,7 +197,7 @@ typedef UIView *(^BumpTableHeaderFooterGenerator)(void);
 typedef UITableViewCell *(^BumpTableCellGenerator)(NSString *reuseIdentifier);
 
 /*!
- @typedef BumpTableHeaderFooterUpdater
+ @typedef BumpTableCellUpdater
 
  @abstract
 
@@ -209,7 +207,7 @@ typedef UITableViewCell *(^BumpTableCellGenerator)(NSString *reuseIdentifier);
 typedef void (^BumpTableCellUpdater)(id cell);
 
 /*!
- @typedef BumpTableHeaderFooterUpdater
+ @typedef BumpTableCellOnSelection
 
  @abstract
 
@@ -219,7 +217,7 @@ typedef void (^BumpTableCellUpdater)(id cell);
 typedef void (^BumpTableCellOnSelection)(id cell);
 
 /*!
- @typedef BumpTableHeaderFooterUpdater
+ @typedef BumpTableCellOnSwipeConfirmation
 
  @abstract
 
@@ -229,56 +227,100 @@ typedef void (^BumpTableCellOnSelection)(id cell);
 typedef void (^BumpTableCellOnSwipeConfirmation)(id cell);
 
 /*!
- @class
+ @class BumpTableRow
 
  @abstract
-
- @discussion
-
+ The model object used to describe a table row
  */
 @interface BumpTableRow : NSObject
-// Must be unique in a table, specific to the data of one row. Used to animate transitions
+
+/*!
+ @abstract
+ Must be unique in a table, specific to the data of one row. Used to animate transitions
+ */
 @property (nonatomic, strong) NSObject <NSCopying> *key;
-// String to be used for searching
+
+/*!
+ @abstract
+ String to be used for searching
+ */
 @property (nonatomic, strong) NSString *searchString;
-// The height of the cell, needed by UITableView for upfront calculation
+
+/*!
+ @abstract
+ The height of the cell, needed by UITableView for upfront calculation
+ */
 @property (nonatomic) CGFloat height;
-// Identifies the cell for use by other similar rows
+
+/*!
+ @abstract
+ Identifies the cell for use by other similar rows
+ */
 @property (nonatomic, strong) NSString *reuseIdentifier;
-// Indicates whether this row is selectable
+
+/*!
+ @abstract
+ Indicates whether this row is selectable. Defaults to yes.
+*/
 @property (nonatomic) BOOL selectable;
-// Indicates whether this row is selectable. Defaults to yes.
+
+/*!
+ @abstract
+ Indicates whether this row is currently selected.
+ */
 @property (nonatomic) BOOL selected;
 
-/* if a cell of the designated reuseId can't be produced by recycling old ones,
- * this will generate a new one. Note: this may not be called for all rows,
- * and the cell returned may be recycled for other rows */
+/*!
+ @abstract
+ if a cell of the designated reuseId can't be produced by recycling old ones,
+ this will generate a new one. Note: this may not be called for all rows,
+ and the cell returned may be recycled for other rows
+ */
 @property (nonatomic, copy) BumpTableCellGenerator generator;
-/* This is called to customize the cell for this particular row.
- * This will be called upon creation of a new cell, when the cell recycles,
- * and when the model changes (if cell is visible) */
+
+/*!
+ @abstract
+ This is called to customize the cell for this particular row.
+ This will be called upon creation of a new cell, when the cell recycles,
+ and when the model changes (if cell is visible)
+ */
 @property (nonatomic, copy) BumpTableCellUpdater customizer;
 
-//This get's called when the user taps on a row.
-//It should be used if you don't care about selection state callbacks below
+/*!
+ @abstract
+ This get's called when the user taps on a row.
+ It should be used if you don't care about selection state callbacks below
+ */
 @property (nonatomic, copy) BumpTableCellOnSelection onTap;
 
-// This gets called when the row is selected
+/*!
+ @abstract
+ This block gets called when the row is selected
+ */
 @property (nonatomic, copy) BumpTableCellOnSelection onSelection;
-// This gets called when the row is deselected
+
+/*!
+ @abstract
+ This block gets called when the row is deselected
+ */
 @property (nonatomic, copy) BumpTableCellOnSelection onDeselection;
-// This gets called when the row's swipe confirmation button is pressed
+
+/*!
+ @abstract
+ This gets called when the row's swipe confirmation button is pressed
+ */
 @property (nonatomic, copy) BumpTableCellOnSwipeConfirmation onSwipeConfirmation;
 
 /*!
  @abstract
+ Creates and returns a table row with the given information
 
- @param
- @param
- @param
- @param 
+ @param key                 Unique key used to identify this row (for transition purposes)
+ @param height              The height of this row
+ @param reuseIdentifier     The reuseIdentifier to use for cell recycling
+ @param generator           The block used to create and initially configure a cell for this row
  */
-+ (instancetype)rowWithKey:(NSObject*)key
++ (instancetype)rowWithKey:(NSObject <NSCopying>*)key
                     height:(CGFloat)height
            reuseIdentifier:(NSString *)reuseIdentifier
                  generator:(BumpTableCellGenerator)generator;
