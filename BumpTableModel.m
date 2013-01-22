@@ -195,7 +195,7 @@
 }
 
 - (void)setSearchString:(NSString *)searchString {
-    _searchString = [searchString lowercaseString];
+    _searchString = [[searchString lowercaseString] copy];
 }
 
 - (NSString *)searchString {

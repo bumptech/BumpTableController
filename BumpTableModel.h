@@ -252,7 +252,7 @@ typedef void (^BumpTableCellOnSwipeConfirmation)(id cell);
  @abstract
  String to be used for searching
  */
-@property (nonatomic, strong) NSString *searchString;
+@property (nonatomic, copy) NSString *searchString;
 
 /*!
  @abstract
