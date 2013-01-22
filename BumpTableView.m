@@ -11,7 +11,6 @@
 
 #define SEARCH_BAR_HEIGHT 44.0f
 
-
 /* Class for managing transitions between BumpTableView updates */
 @interface BumpTransition : NSObject
 @property (nonatomic) NSSet *inserted;
@@ -443,6 +442,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
     return index;
+}
+
+#pragma mark - UIScrollViewDelegate 
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    // user started dragging, post a notification to inform any interested parties
+    [[NSNotificationCenter defaultCenter] postNotificationName:BumpTableViewDidBeginDraggingNotification
+                                                        object:scrollView];
 }
 
 #pragma mark - Searching
