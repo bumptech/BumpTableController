@@ -444,14 +444,6 @@
     return index;
 }
 
-#pragma mark - UIScrollViewDelegate 
-
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    // user started dragging, post a notification to inform any interested parties
-    [[NSNotificationCenter defaultCenter] postNotificationName:BumpTableViewDidBeginDraggingNotification
-                                                        object:scrollView];
-}
-
 #pragma mark - Searching
 
 - (UISearchBar *)searchBar {
@@ -483,6 +475,82 @@
     }
     _searchResultsRows = _newResults;
     return YES;
+}
+
+#pragma mark - UIScrollViewDelegate passthroughs
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if ([self.scrollViewDelegate respondsToSelector:_cmd]) {
+        [self.scrollViewDelegate scrollViewDidScroll:scrollView];
+    }
+}
+
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView {
+    if ([self.scrollViewDelegate respondsToSelector:_cmd]) {
+        [self.scrollViewDelegate scrollViewDidZoom:scrollView];
+    }
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    if ([self.scrollViewDelegate respondsToSelector:_cmd]) {
+        [self.scrollViewDelegate scrollViewWillBeginDragging:scrollView];
+    }
+}
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+    if ([self.scrollViewDelegate respondsToSelector:_cmd]) {
+        [self.scrollViewDelegate scrollViewWillEndDragging:scrollView withVelocity:velocity targetContentOffset:targetContentOffset];
+    }
+}
+
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
+    if ([self.scrollViewDelegate respondsToSelector:_cmd]) {
+        [self.scrollViewDelegate scrollViewWillBeginDecelerating:scrollView];
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    if ([self.scrollViewDelegate respondsToSelector:_cmd]) {
+        [self.scrollViewDelegate scrollViewDidEndDecelerating:scrollView];
+    }
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+    if ([self.scrollViewDelegate respondsToSelector:_cmd]) {
+        [self.scrollViewDelegate scrollViewDidEndScrollingAnimation:scrollView];
+    }
+}
+
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
+    if ([self.scrollViewDelegate respondsToSelector:_cmd]) {
+        return [self.scrollViewDelegate viewForZoomingInScrollView:scrollView];
+    }
+    return nil;
+}
+
+- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view {
+    if ([self.scrollViewDelegate respondsToSelector:_cmd]) {
+        [self.scrollViewDelegate scrollViewWillBeginZooming:scrollView withView:view];
+    }
+}
+
+- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(float)scale {
+    if ([self.scrollViewDelegate respondsToSelector:_cmd]) {
+        [self.scrollViewDelegate scrollViewDidEndZooming:scrollView withView:view atScale:scale];
+    }
+}
+
+- (BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView {
+    if ([self.scrollViewDelegate respondsToSelector:_cmd]) {
+        return [self.scrollViewDelegate scrollViewShouldScrollToTop:scrollView];
+    }
+    return YES;
+}
+
+- (void)scrollViewDidScrollToTop:(UIScrollView *)scrollView {
+    if ([self.scrollViewDelegate respondsToSelector:_cmd]) {
+        [self.scrollViewDelegate scrollViewDidScrollToTop:scrollView];
+    }
 }
 
 @end
