@@ -379,7 +379,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self toggleRow:indexPath inTableView:tableView];
     BumpTableRow *row = [self rowForTableView:tableView indexPath:indexPath];
-    BumpTableViewCell *cell = (BumpTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if (row.onTap) row.onTap(cell);
 }
 
@@ -390,7 +390,7 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         BumpTableRow *row = [self rowForTableView:tableView indexPath:indexPath];
-        BumpTableViewCell *cell = (BumpTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         if (row.onSwipeConfirmation) row.onSwipeConfirmation(cell);
     }
 }
