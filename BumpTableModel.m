@@ -103,7 +103,7 @@
     NSMutableArray *results = [NSMutableArray array];
     [_sections enumerateObjectsUsingBlock:^(BumpTableSection *s, NSUInteger sidx, BOOL *stop) {
         [s.rows enumerateObjectsUsingBlock:^(BumpTableRow *r, NSUInteger ridx, BOOL *stop) {
-            if ([r.searchString rangeOfString:searchString].location != NSNotFound) {
+            if (r.searchString && [r.searchString rangeOfString:searchString].location != NSNotFound) {
                 [results addObject:r];
             }
         }];
@@ -233,8 +233,9 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<Row key:%@\nheight:%f\nreuse:%@\ngenerator:%d\ncustomizer:%d\nonSelection:%d\nonDeselection:%d\n>",
+    return [NSString stringWithFormat:@"<Row key:%@\nsearch string:%@\nheight:%f\nreuse:%@\ngenerator:%d\ncustomizer:%d\nonSelection:%d\nonDeselection:%d\n>",
             self.key,
+            self.searchString,
             self.height,
             self.reuseIdentifier,
             !!self.generator,
