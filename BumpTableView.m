@@ -482,6 +482,8 @@
     _searchResultsTableView = tableView;
     _searchResultsTableView.backgroundColor = self.backgroundColor;
     _searchResultsTableView.separatorStyle = self.separatorStyle;
+    tableView.delegate = self;
+    tableView.dataSource = self;
     _searchResultsRows  = [NSArray array];
 }
 
@@ -490,13 +492,13 @@
     _searchResultsTableView = nil;
 }
 
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
-    NSMutableArray *_newResults = [_model rowsForSearchString:searchString];
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {    
+    NSMutableArray *newResults = [_model rowsForSearchString:searchString];
 
-    if ([_newResults isEqual:_searchResultsRows]) {
+    if ([newResults isEqual:_searchResultsRows]) {
         return NO;
     }
-    _searchResultsRows = _newResults;
+    _searchResultsRows = newResults;
     return YES;
 }
 
