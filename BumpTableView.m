@@ -373,14 +373,20 @@
     } else {
         if (row.onDeselection) row.onDeselection(cell);
     }
-    [cell selectCell:row.selected];
+    if ([cell respondsToSelector:@selector(selectCell:)]) [cell selectCell:row.selected];
+
     [self reloadOtherTableView:tableView];
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self toggleRow:indexPath inTableView:tableView];
     BumpTableRow *row = [self rowForTableView:tableView indexPath:indexPath];
     BumpTableViewCell *cell = (BumpTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     if (row.onTap) row.onTap(cell);
+    if (row.selectable) {
+        [self toggleRow:indexPath inTableView:tableView];
+    } else {
+        // show tap animation
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
