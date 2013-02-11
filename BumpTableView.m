@@ -347,12 +347,12 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     if (tableView == _searchResultsTableView) return nil;
-    return [self sectionForIndex:section].header.generator();
+    return [self sectionForIndex:section].header.view;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     if (tableView == _searchResultsTableView) return nil;
-    return [self sectionForIndex:section].footer.generator();
+    return [self sectionForIndex:section].header.view;
 }
 
 - (void)reloadOtherTableView:(UITableView *)currentTableView {
@@ -373,14 +373,20 @@
     } else {
         if (row.onDeselection) row.onDeselection(cell);
     }
-    [cell selectCell:row.selected];
+    if ([cell respondsToSelector:@selector(selectCell:)]) [cell selectCell:row.selected];
+
     [self reloadOtherTableView:tableView];
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self toggleRow:indexPath inTableView:tableView];
     BumpTableRow *row = [self rowForTableView:tableView indexPath:indexPath];
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if (row.onTap) row.onTap(cell);
+    if (row.selectable) {
+        [self toggleRow:indexPath inTableView:tableView];
+    } else {
+        // show tap animation
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -444,6 +450,15 @@
     return index;
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return [self sectionForIndex:section].header.title;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
+    return [self sectionForIndex:section].footer.title;
+}
+
+
 #pragma mark - Searching
 
 - (UISearchBar *)searchBar {
@@ -459,6 +474,8 @@
     _searchResultsTableView = tableView;
     _searchResultsTableView.backgroundColor = self.backgroundColor;
     _searchResultsTableView.separatorStyle = self.separatorStyle;
+    tableView.delegate = self;
+    tableView.dataSource = self;
     _searchResultsRows  = [NSArray array];
 }
 
@@ -467,13 +484,13 @@
     _searchResultsTableView = nil;
 }
 
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
-    NSMutableArray *_newResults = [_model rowsForSearchString:searchString];
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {    
+    NSMutableArray *newResults = [_model rowsForSearchString:searchString];
 
-    if ([_newResults isEqual:_searchResultsRows]) {
+    if ([newResults isEqual:_searchResultsRows]) {
         return NO;
     }
-    _searchResultsRows = _newResults;
+    _searchResultsRows = newResults;
     return YES;
 }
 

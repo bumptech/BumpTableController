@@ -103,7 +103,7 @@
     NSMutableArray *results = [NSMutableArray array];
     [_sections enumerateObjectsUsingBlock:^(BumpTableSection *s, NSUInteger sidx, BOOL *stop) {
         [s.rows enumerateObjectsUsingBlock:^(BumpTableRow *r, NSUInteger ridx, BOOL *stop) {
-            if ([r.searchString rangeOfString:searchString].location != NSNotFound) {
+            if (r.searchString && [r.searchString rangeOfString:searchString].location != NSNotFound) {
                 [results addObject:r];
             }
         }];
@@ -132,13 +132,43 @@
 
 @end
 
-@implementation BumpTableHeaderFooter
+@implementation BumpTableHeaderFooter {
+    CGFloat _height;
+}
+
+@dynamic height;
 
 + (instancetype)headerFooterForHeight:(CGFloat)height generator:(BumpTableHeaderFooterGenerator)generator {
     BumpTableHeaderFooter *hf = [BumpTableHeaderFooter new];
     hf.height = height;
     hf.generator = generator;
     return hf;
+}
+
++ (instancetype)headerFooterWithTitle:(NSString *)title {
+    BumpTableHeaderFooter *hf = [BumpTableHeaderFooter new];
+    hf.title = title;
+    return hf;
+}
+
+- (UIView *)view {
+    if (_generator) return _generator();
+    return nil;
+}
+
+- (void)setHeight:(CGFloat)height {
+    _height = height;
+}
+
+- (CGFloat)height {
+    if (_height == 0.0) {
+        if (!_title)
+            return 0.0;
+        if ([[UIDevice currentDevice].systemVersion intValue] >= 5)
+            return UITableViewAutomaticDimension;
+        else return 22.0;   // Grouped table views should be 10.0, this only affects < iOS 5
+    }
+    return _height;
 }
 
 - (NSString *)description {
@@ -203,8 +233,9 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<Row key:%@\nheight:%f\nreuse:%@\ngenerator:%d\ncustomizer:%d\nonSelection:%d\nonDeselection:%d\n>",
+    return [NSString stringWithFormat:@"<Row key:%@\nsearch string:%@\nheight:%f\nreuse:%@\ngenerator:%d\ncustomizer:%d\nonSelection:%d\nonDeselection:%d\n>",
             self.key,
+            self.searchString,
             self.height,
             self.reuseIdentifier,
             !!self.generator,
