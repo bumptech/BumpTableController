@@ -111,7 +111,7 @@
 typedef UIView *(^BumpTableHeaderFooterGenerator)(void);
 
 /*!
- @class BmpTableHeaderFooter
+ @class BumpTableHeaderFooter
 
  @abstract
  Model for a table header or footer
@@ -120,7 +120,14 @@ typedef UIView *(^BumpTableHeaderFooterGenerator)(void);
 
 /*!
  @abstract
- the height of the header or footer
+The title of this header or footer. Note that this is ignored
+by UITableView if a generator is supplied.
+ */
+@property (nonatomic, retain) NSString *title;
+
+/*!
+ @abstract
+ the height of the header or footer view
  */
 @property (nonatomic) CGFloat height;
 
@@ -131,6 +138,12 @@ typedef UIView *(^BumpTableHeaderFooterGenerator)(void);
 @property (nonatomic, copy) BumpTableHeaderFooterGenerator generator;
 
 /*!
+ @abstract
+ Generates the view or returns nil if no generator is set
+ */
+- (UIView *)view;
+
+/*!
  @method
  @abstract
  Creates and returns a headerFooter model object, to be set on a table model
@@ -139,6 +152,15 @@ typedef UIView *(^BumpTableHeaderFooterGenerator)(void);
  @param generator   The block used to create the header or footer view
  */
 + (instancetype)headerFooterForHeight:(CGFloat)height generator:(BumpTableHeaderFooterGenerator)generator;
+
+/*!
+ @method
+ @abstract
+ Creates and returns a headerFooter model object, to be set on a table model
+
+ @param title      The title of this header or footer
+ */
++ (instancetype)headerFooterWithTitle:(NSString *)title;
 
 @end
 
@@ -168,6 +190,7 @@ typedef UIView *(^BumpTableHeaderFooterGenerator)(void);
  The index title to use if the table has scrubber enabled
  */
 @property (nonatomic, strong) NSString *indexTitle;
+
 
 /*!
  @abstract
