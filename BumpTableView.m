@@ -347,12 +347,12 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     if (tableView == _searchResultsTableView) return nil;
-    return [self sectionForIndex:section].header.generator();
+    return [self sectionForIndex:section].header.view;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     if (tableView == _searchResultsTableView) return nil;
-    return [self sectionForIndex:section].footer.generator();
+    return [self sectionForIndex:section].header.view;
 }
 
 - (void)reloadOtherTableView:(UITableView *)currentTableView {
@@ -443,6 +443,15 @@
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
     return index;
 }
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return [self sectionForIndex:section].header.title;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
+    return [self sectionForIndex:section].footer.title;
+}
+
 
 #pragma mark - UIScrollViewDelegate 
 
