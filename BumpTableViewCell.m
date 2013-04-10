@@ -22,7 +22,7 @@
     return [self initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier initialHeight:height];
 }
 
-- (id)initWithStyle:(UITableViewStyle)style reuseIdentifier:(NSString *)reuseIdentifier initialHeight:(CGFloat)height {
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier initialHeight:(CGFloat)height {
     if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         CGRect b = self.contentView.bounds;
