@@ -247,6 +247,8 @@ typedef void (^BumpTableCellUpdater)(id cell);
  */
 typedef void (^BumpTableCellOnSelection)(id cell);
 
+typedef BumpTableCellOnSelection BumpTableCellOnDeselection;
+
 /*!
  @typedef BumpTableCellOnSwipeConfirmation
 
@@ -336,7 +338,7 @@ typedef void (^BumpTableCellOnSwipeConfirmation)(id cell);
  This block gets called when the row is deselected
  IMPORTANT: If the onTap block is implemented, this block will not get called
  */
-@property (nonatomic, copy) BumpTableCellOnSelection onDeselection;
+@property (nonatomic, copy) BumpTableCellOnDeselection onDeselection;
 
 /*!
  @abstract
