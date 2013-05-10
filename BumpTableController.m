@@ -16,10 +16,10 @@
 /* Class for managing transitions between UITableView updates */
 
 @interface BumpTransition : NSObject
-@property (nonatomic) NSSet *inserted;
-@property (nonatomic) NSSet *deleted;
-@property (nonatomic) NSSet *mutual;
-@property (nonatomic) NSSet *moved;
+@property (nonatomic,strong) NSSet *inserted;
+@property (nonatomic,strong) NSSet *deleted;
+@property (nonatomic,strong) NSSet *mutual;
+@property (nonatomic,strong) NSSet *moved;
 @end
 
 @implementation BumpTransition

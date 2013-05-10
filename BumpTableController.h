@@ -15,20 +15,20 @@
 
 - (id)initWithTableView:(UITableView *)tableView;
 
-@property (nonatomic,weak) UITableView *tableView;                   // the tableView that this controller handles
+@property (nonatomic,weak) UITableView *tableView;                          // the tableView that this controller handles
 
-@property (nonatomic) BumpTableModel *model;                         // setting a model will automatically call reload the data using the new model (not animated)
+@property (nonatomic,strong) BumpTableModel *model;                         // setting a model will automatically call reload the data using the new model (not animated)
 
-- (void)transitionToModel:(BumpTableModel *)newModel;                // animated version of setModel: using UITableViewRowAnimationTop for all row insertions/deletions
+- (void)transitionToModel:(BumpTableModel *)newModel;                       // animated version of setModel: using UITableViewRowAnimationTop for all row insertions/deletions
 
-@property (nonatomic) UITableViewRowAnimation transtionAnimation;    // animation transition to use for row insertions/deletions (does not affect move animations)
-                                                                     // Default is UITableViewRowAnimationTop
+@property (nonatomic,assign) UITableViewRowAnimation transtionAnimation;    // animation transition to use for row insertions/deletions (does not affect move animations)
+                                                                            // Default is UITableViewRowAnimationTop
 
-@property (nonatomic) BOOL showSectionIndexTitles;                   // show scrubber. Default is NO
-@property (nonatomic) BOOL allowsSwipeConfirmation;                  // show button over cell when user swipes. Default is NO
-@property (nonatomic) NSString *swipeConfirmationTitle;              // title of swipe button. Default is "Delete"
+@property (nonatomic) BOOL showSectionIndexTitles;                          // show scrubber. Default is NO
+@property (nonatomic) BOOL allowsSwipeConfirmation;                         // show button over cell when user swipes. Default is NO
+@property (nonatomic,copy) NSString *swipeConfirmationTitle;                // title of swipe button. Default is "Delete"
 
-@property (nonatomic) UISearchBar *searchBar;                        // upon first access, the search bar is added to the table header
+@property (nonatomic,strong) UISearchBar *searchBar;                        // upon first access, the search bar is added to the table header
 
 @property (nonatomic,weak) id <BumpTableScrollViewDelegate> scrollViewDelegate;  // passes through UIScrollViewDelegate callbacks
 
