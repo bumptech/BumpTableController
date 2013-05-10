@@ -177,13 +177,19 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     BumpTableRow *row = [self rowForTableView:tableView indexPath:indexPath];
-    id cell = [tableView cellForRowAtIndexPath:indexPath];
-    if (row.onTap) row.onTap(cell);
-    if (row.selectable) {
-        [self toggleRow:indexPath inTableView:tableView];
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    if (row.onTap) {
+        if (cell.selectionStyle != UITableViewCellEditingStyleNone) {
+            // deselect row if applicable, before onTap block is called
+            [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        }
+        row.onTap(cell);
     } else {
-        // show tap animation
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        if (row.selectable) {
+            [self toggleRow:indexPath inTableView:tableView];
+        } else {
+            [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        }
     }
 }
 
@@ -276,35 +282,42 @@
                                                      fromRows:oldIps toRows:newIps
                                                  sameSections:sectionInfo.mutual];
     NSArray *thenVisibleIps = [_tableView indexPathsForVisibleRows];
+
+    // perform updates on tableview
     [_tableView beginUpdates];
-    for (NSObject *key in sectionInfo.inserted) {
-        [_tableView insertSections:[newS objectForKey:key]
-                  withRowAnimation:insertAnimation];
-    }
-    for (NSObject *key in sectionInfo.deleted) {
-        [_tableView deleteSections:[oldS objectForKey:key]
-                  withRowAnimation:deleteAnimation];
-    }
-    // TODO: Remove this NO once section moving bugs are resolved
-    if ([self respondsToSelector:@selector(moveSection:toSection:)]) {
+    {
+        // perform any section insertions on the tableview
+        for (NSObject *key in sectionInfo.inserted) {
+            [_tableView insertSections:[newS objectForKey:key]
+                      withRowAnimation:insertAnimation];
+        }
+        // perform any section deletions on the tableview
+        for (NSObject *key in sectionInfo.deleted) {
+            [_tableView deleteSections:[oldS objectForKey:key]
+                      withRowAnimation:deleteAnimation];
+        }
+        // perform any section moves within the tableview
         for (NSObject *key in sectionInfo.moved) {
             [_tableView moveSection:[[oldS objectForKey:key] firstIndex]
                           toSection:[[newS objectForKey:key] firstIndex]];
         }
-    }
-    [_tableView insertRowsAtIndexPaths:[newIps objectsForKeys:[rowInfo.inserted allObjects]
-                                               notFoundMarker:[NSNull null]]
-                      withRowAnimation:insertAnimation];
-    [_tableView deleteRowsAtIndexPaths:[oldIps objectsForKeys:[rowInfo.deleted allObjects]
-                                               notFoundMarker:[NSNull null]]
-                      withRowAnimation:deleteAnimation];
-    if ([self respondsToSelector:@selector(moveRowAtIndexPath:toIndexPath:)]) {
+
+        // perform any row insertions on the tableview
+        [_tableView insertRowsAtIndexPaths:[newIps objectsForKeys:[rowInfo.inserted allObjects]
+                                                   notFoundMarker:[NSNull null]]
+                          withRowAnimation:insertAnimation];
+        // perform any row deletions on the tableview
+        [_tableView deleteRowsAtIndexPaths:[oldIps objectsForKeys:[rowInfo.deleted allObjects]
+                                                   notFoundMarker:[NSNull null]]
+                          withRowAnimation:deleteAnimation];
+        // perform any row moves in the tableview
         for (NSObject *key in rowInfo.moved) {
             [_tableView moveRowAtIndexPath:[oldIps objectForKey:key]
                                toIndexPath:[newIps objectForKey:key]];
         }
     }
     [_tableView endUpdates];
+
     NSArray *nowVisibleIps = [_tableView indexPathsForVisibleRows];
     NSMutableArray *toReload = [NSMutableArray array];
     for (NSIndexPath *ip in thenVisibleIps) {
@@ -324,8 +337,7 @@
         }
     }
     if ([toReload count]) {
-        [_tableView reloadRowsAtIndexPaths:toReload
-                          withRowAnimation:UITableViewRowAnimationNone];
+        [_tableView reloadRowsAtIndexPaths:toReload withRowAnimation:UITableViewRowAnimationNone];
     }
 }
 
@@ -378,14 +390,6 @@
                                                 filterWithBlock:goodSecs]
                                             to:[[newSections mapWithBlock:secKeys]
                                                 filterWithBlock:goodSecs]];
-    if (![UITableView instancesRespondToSelector:@selector(moveRowAtIndexPath:toIndexPath:)]) {
-        for (NSObject *key in movedSections) {
-            [deletedSections addObject:key];
-            [insertedSections addObject:key];
-            [mutualSections removeObject:key];
-        }
-    }
-
     BumpTransition *sectionTransition = [BumpTransition new];
     sectionTransition.inserted = insertedSections;
     sectionTransition.deleted = deletedSections;
@@ -450,15 +454,6 @@
                                                      to:[[newSection.rows mapWithBlock:rKey]
                                                          filterWithBlock:goodRow]];
         [movedRows unionSet:movedInThisSection];
-    }
-
-    if (![UITableView instancesRespondToSelector:@selector(moveRowAtIndexPath:toIndexPath:)]) {
-        for (NSObject *key in movedRows) {
-            [deletedRows addObject:key];
-            [insertedRows addObject:key];
-            [mutualRows removeObject:key];
-            //NOTE: if you use non-standard cell caching, you may also want to reload these later
-        }
     }
 
     BumpTransition *rowTransition = [BumpTransition new];

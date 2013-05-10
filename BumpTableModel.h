@@ -326,13 +326,15 @@ typedef void (^BumpTableCellOnSwipeConfirmation)(id cell);
 
 /*!
  @abstract
- This block gets called when the row is selected
+ This block gets called when the row is selected. 
+ IMPORTANT: If the onTap block is implemented, this block will not get called 
  */
 @property (nonatomic, copy) BumpTableCellOnSelection onSelection;
 
 /*!
  @abstract
  This block gets called when the row is deselected
+ IMPORTANT: If the onTap block is implemented, this block will not get called
  */
 @property (nonatomic, copy) BumpTableCellOnSelection onDeselection;
 
