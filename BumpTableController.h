@@ -21,7 +21,7 @@
 
 - (void)transitionToModel:(BumpTableModel *)newModel;                       // animated version of setModel: using UITableViewRowAnimationTop for all row insertions/deletions
 
-@property (nonatomic,assign) UITableViewRowAnimation transtionAnimation;    // animation transition to use for row insertions/deletions (does not affect move animations)
+@property (nonatomic,assign) UITableViewRowAnimation transitionAnimation;    // animation transition to use for row insertions/deletions (does not affect move animations)
                                                                             // Default is UITableViewRowAnimationTop
 
 @property (nonatomic) BOOL showSectionIndexTitles;                          // show scrubber. Default is NO

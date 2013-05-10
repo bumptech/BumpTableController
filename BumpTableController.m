@@ -49,7 +49,7 @@
 - (id)initWithTableView:(UITableView *)tableView {
     if ((self = [super init])) {
         self.tableView = tableView;
-        self.transtionAnimation = UITableViewRowAnimationTop;
+        self.transitionAnimation = UITableViewRowAnimationTop;
     }
     return self;
 }
@@ -251,8 +251,8 @@
 }
 
 - (void)transitionToModel:(BumpTableModel *)newModel {
-    UITableViewRowAnimation insertAnimation = _transtionAnimation;
-    UITableViewRowAnimation deleteAnimation = _transtionAnimation;
+    UITableViewRowAnimation insertAnimation = _transitionAnimation;
+    UITableViewRowAnimation deleteAnimation = _transitionAnimation;
     BumpTableModel *oldModel = _model;
     _model = newModel;
     if (!oldModel) {
@@ -343,8 +343,8 @@
 
 #pragma mark - Transitions helpers
 
-- (void)setTranstionAnimation:(UITableViewRowAnimation)transtionAnimation {
-    _transtionAnimation = transtionAnimation;
+- (void)setTransitionAnimation:(UITableViewRowAnimation)transitionAnimation {
+    _transitionAnimation = transitionAnimation;
 }
 
 /**

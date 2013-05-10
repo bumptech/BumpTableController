@@ -60,7 +60,7 @@
     // initialize table controller with tableview
     _tableController = [[BumpTableController alloc] initWithTableView:_tableView];
     _tableController.allowsSwipeConfirmation = YES;
-    _tableController.transtionAnimation = UITableViewRowAnimationTop;
+    _tableController.transitionAnimation = UITableViewRowAnimationTop;
 
     [self updateView];
     [self enableSearching];
