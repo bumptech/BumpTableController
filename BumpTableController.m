@@ -67,6 +67,64 @@
     return _tableView;
 }
 
+#pragma mark - UITableViewDataSource methods
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    if (tableView == _searchResultsTableView) return 1;
+    return [[_model sections] count];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (tableView == _searchResultsTableView) {
+        return [_searchResultsRows count];
+    }
+    return [[[self sectionForIndex:section] rows] count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    BumpTableRow *row = [self rowForTableView:tableView indexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:row.reuseIdentifier];
+    if (!cell) {
+        if (row.generator != NULL) {
+            cell = row.generator(row.reuseIdentifier);
+        } else {
+            // no generator was specified, create a basic BumpTableViewCell with reuseIdentifier
+            cell = [[BumpTableViewCell alloc] initWithReuseIdentifier:row.reuseIdentifier];
+        }
+    }
+    if (row.customizer) {
+        row.customizer(cell);
+    }
+
+    return cell;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return _allowsSwipeConfirmation;
+}
+
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
+    if (tableView != _searchResultsTableView && _showSectionIndexTitles) {
+        NSMutableArray *indexTitles = [NSMutableArray array];
+        for (BumpTableSection *section in _model.sections) {
+            [indexTitles addObject:section.indexTitle];
+        }
+        return indexTitles;
+    } else return nil;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
+    return index;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return [self sectionForIndex:section].header.title;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
+    return [self sectionForIndex:section].footer.title;
+}
+
 #pragma mark - UITableViewDelegate methods
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -143,64 +201,6 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
     return _swipeConfirmationTitle;
-}
-
-#pragma mark - UITableViewDataSource methods
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if (tableView == _searchResultsTableView) return 1;
-    return [[_model sections] count];
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (tableView == _searchResultsTableView) {
-        return [_searchResultsRows count];
-    }
-    return [[[self sectionForIndex:section] rows] count];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    BumpTableRow *row = [self rowForTableView:tableView indexPath:indexPath];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:row.reuseIdentifier];
-    if (!cell) {
-        if (row.generator != NULL) {
-            cell = row.generator(row.reuseIdentifier);
-        } else {
-            // no generator was specified, create a basic BumpTableViewCell with reuseIdentifier
-            cell = [[BumpTableViewCell alloc] initWithReuseIdentifier:row.reuseIdentifier];
-        }
-    }
-    if (row.customizer) {
-        row.customizer(cell);
-    }
-
-    return cell;
-}
-
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    return _allowsSwipeConfirmation;
-}
-
-- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
-    if (tableView != _searchResultsTableView && _showSectionIndexTitles) {
-        NSMutableArray *indexTitles = [NSMutableArray array];
-        for (BumpTableSection *section in _model.sections) {
-            [indexTitles addObject:section.indexTitle];
-        }
-        return indexTitles;
-    } else return nil;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
-    return index;
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return [self sectionForIndex:section].header.title;
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
-    return [self sectionForIndex:section].footer.title;
 }
 
 #pragma mark - Helpers
