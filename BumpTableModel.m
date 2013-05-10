@@ -230,6 +230,7 @@
     assert(self.selectable);
     _selected = selected;
 }
+
 - (BOOL)selected {
     return _selected;
 }

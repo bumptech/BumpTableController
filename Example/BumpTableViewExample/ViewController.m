@@ -7,20 +7,19 @@
 //
 
 #import "ViewController.h"
-//#import "BumpTableView.h"
 #import "BumpTableController.h"
 
 
 #define ROW_HEIGHT 44.0f
 
 @interface ViewController ()
+
 @property (nonatomic) BumpTableController *tableController;
+
 @property (nonatomic) BumpTableSection *chosenSection;
 @property (nonatomic) BumpTableSection *allSection;
 @property (nonatomic) NSMutableArray *fontRows;
 @property (nonatomic) NSMutableArray *chosenFontRows;
-
-//@property NSMutableArray *sections;
 
 @end
 

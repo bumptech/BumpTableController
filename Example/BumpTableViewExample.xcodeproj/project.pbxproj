@@ -29,8 +29,6 @@
 		BA1B3E3B173AD698007757B6 /* BumpTableController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BumpTableController.m; path = ../../BumpTableController.m; sourceTree = "<group>"; };
 		BAB0B86E16979650004DE95E /* BumpTableModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BumpTableModel.h; path = ../../BumpTableModel.h; sourceTree = "<group>"; };
 		BAB0B86F16979650004DE95E /* BumpTableModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BumpTableModel.m; path = ../../BumpTableModel.m; sourceTree = "<group>"; };
-		BAB0B87016979650004DE95E /* BumpTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BumpTableView.h; path = ../../BumpTableView.h; sourceTree = "<group>"; };
-		BAB0B87116979650004DE95E /* BumpTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BumpTableView.m; path = ../../BumpTableView.m; sourceTree = "<group>"; };
 		BAB0B87216979650004DE95E /* BumpTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BumpTableViewCell.h; path = ../../BumpTableViewCell.h; sourceTree = "<group>"; };
 		BAB0B87316979650004DE95E /* BumpTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BumpTableViewCell.m; path = ../../BumpTableViewCell.m; sourceTree = "<group>"; };
 		BAB0B87416979650004DE95E /* NSArray+Bump.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSArray+Bump.h"; path = "../../NSArray+Bump.h"; sourceTree = "<group>"; };
@@ -75,8 +73,6 @@
 				BA1B3E3B173AD698007757B6 /* BumpTableController.m */,
 				BAB0B86E16979650004DE95E /* BumpTableModel.h */,
 				BAB0B86F16979650004DE95E /* BumpTableModel.m */,
-				BAB0B87016979650004DE95E /* BumpTableView.h */,
-				BAB0B87116979650004DE95E /* BumpTableView.m */,
 				BAB0B87216979650004DE95E /* BumpTableViewCell.h */,
 				BAB0B87316979650004DE95E /* BumpTableViewCell.m */,
 				BAB0B87416979650004DE95E /* NSArray+Bump.h */,
