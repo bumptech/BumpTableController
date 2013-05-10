@@ -356,4 +356,9 @@ typedef void (^BumpTableCellOnSwipeConfirmation)(id cell);
                     height:(CGFloat)height
            reuseIdentifier:(NSString *)reuseIdentifier
                  generator:(BumpTableCellGenerator)generator;
+
++ (instancetype)rowWithKey:(NSObject <NSCopying>*)key
+                    height:(CGFloat)height
+           reuseIdentifier:(NSString *)reuseIdentifier;
+
 @end

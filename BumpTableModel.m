@@ -182,7 +182,7 @@
 + (instancetype)sectionWithKey:(NSObject <NSCopying>*)key rows:(NSArray*)rows {
     BumpTableSection *section = [self new];
     section.key = key;
-    section.rows = rows;
+    section.rows = [NSArray arrayWithArray:rows];
     return section;
 }
 
@@ -214,6 +214,16 @@
     row.generator = generator;
     row.selectable = YES;
     return row;
+}
+
++ (instancetype)rowWithKey:(NSObject <NSCopying>*)key
+                    height:(CGFloat)height
+           reuseIdentifier:(NSString *)reuseIdentifier
+{
+    return [[self class] rowWithKey:key
+                      height:height
+             reuseIdentifier:reuseIdentifier
+                   generator:NULL];
 }
 
 - (void)setSelected:(BOOL)selected {
