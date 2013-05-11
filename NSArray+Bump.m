@@ -1,6 +1,5 @@
 //
 //  NSArray+Functional.m
-//  Flock
 //
 //  Created by Indrajit Khare on 4/25/12.
 //  Copyright (c) 2012 Bump Technologies Inc. All rights reserved.

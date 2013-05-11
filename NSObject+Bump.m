@@ -1,6 +1,5 @@
 //
 //  NSObject+Description.m
-//  Flock
 //
 //  Created by Ian Macartney on 5/21/12.
 //  Copyright (c) 2012 Bump Technologies Inc. All rights reserved.
