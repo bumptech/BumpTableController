@@ -15,7 +15,7 @@
 
 - (id)initWithTableView:(UITableView *)tableView;
 
-@property (nonatomic,weak) UITableView *tableView;                          // the tableView that this controller handles
+@property (nonatomic,unsafe_unretained) UITableView *tableView;                        // the tableView that this controller handles
 
 @property (nonatomic,strong) BumpTableModel *model;                         // setting a model will automatically call reload the data using the new model (not animated)
 
@@ -30,7 +30,7 @@
 
 @property (nonatomic,strong) UISearchBar *searchBar;                        // upon first access, the search bar is added to the table header
 
-@property (nonatomic,weak) id <BumpTableScrollViewDelegate> scrollViewDelegate;  // passes through UIScrollViewDelegate callbacks
+@property (nonatomic,unsafe_unretained) id <BumpTableScrollViewDelegate> scrollViewDelegate;  // passes through UIScrollViewDelegate callbacks
 
 @end
 
