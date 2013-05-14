@@ -1,6 +1,5 @@
 //
 //  BumpTableModel.m
-//  Flock
 //
 //  Created by Sahil Desai on 12/11/12.
 //  Copyright (c) 2012 Bump Technologies Inc. All rights reserved.
@@ -182,7 +181,7 @@
 + (instancetype)sectionWithKey:(NSObject <NSCopying>*)key rows:(NSArray*)rows {
     BumpTableSection *section = [self new];
     section.key = key;
-    section.rows = rows;
+    section.rows = [NSArray arrayWithArray:rows];
     return section;
 }
 
@@ -216,10 +215,21 @@
     return row;
 }
 
++ (instancetype)rowWithKey:(NSObject <NSCopying>*)key
+                    height:(CGFloat)height
+           reuseIdentifier:(NSString *)reuseIdentifier
+{
+    return [[self class] rowWithKey:key
+                      height:height
+             reuseIdentifier:reuseIdentifier
+                   generator:NULL];
+}
+
 - (void)setSelected:(BOOL)selected {
     assert(self.selectable);
     _selected = selected;
 }
+
 - (BOOL)selected {
     return _selected;
 }

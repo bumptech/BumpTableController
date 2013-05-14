@@ -1,47 +1,46 @@
 //
-//  BumpTableView.h
+//  BumpTableController.h
+//  bump2
 //
-//  Created by Sahil Desai on 12/11/12.
-//  Copyright (c) 2012 Bump Technologies Inc. All rights reserved.
+//  Created by Sahil Desai on 5/7/13.
+//
 //
 
-#import <UIKit/UIKit.h>
 #import "BumpTableModel.h"
 #import "BumpTableViewCell.h"
 
-/*!
- @class BumpTableView
+@protocol BumpTableScrollViewDelegate;
 
- @abstract
+@interface BumpTableController : NSObject <UITableViewDataSource,UITableViewDelegate,UISearchDisplayDelegate>
 
- */
+- (id)initWithTableView:(UITableView *)tableView;
 
-@protocol BumpTableViewScrollViewDelegate;
+@property (nonatomic,unsafe_unretained) UITableView *tableView;                        // the tableView that this controller handles
 
-@interface BumpTableView : UITableView <UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, UISearchDisplayDelegate>
+@property (nonatomic,strong) BumpTableModel *model;                         // setting a model will automatically call reload the data using the new model (not animated)
 
-@property (nonatomic,assign) id <BumpTableViewScrollViewDelegate> scrollViewDelegate;  // passes through UIScrollViewDelegate callbacks
+- (void)transitionToModel:(BumpTableModel *)newModel;                       // animated version of setModel: using UITableViewRowAnimationTop for all row insertions/deletions
 
-@property (nonatomic,assign) BOOL showSectionIndexTitles;                           // show scrubber. Default is NO
-@property (nonatomic,assign) BOOL allowsSwipeConfirmation;                          // show button over cell when user swipes. Default is NO
-@property (nonatomic,strong) NSString *swipeConfirmationTitle;                      // title of swipe button. Default is "Delete"
+@property (nonatomic,assign) UITableViewRowAnimation transitionAnimation;    // animation transition to use for row insertions/deletions (does not affect move animations)
+                                                                            // Default is UITableViewRowAnimationTop
 
-@property (nonatomic,strong) UISearchBar *searchBar;                                // upon first access, the search bar is added to the table header
+@property (nonatomic) BOOL showSectionIndexTitles;                          // show scrubber. Default is NO
+@property (nonatomic) BOOL allowsSwipeConfirmation;                         // show button over cell when user swipes. Default is NO
+@property (nonatomic,copy) NSString *swipeConfirmationTitle;                // title of swipe button. Default is "Delete"
 
-// Model changes
-@property (nonatomic,strong) BumpTableModel *model;                                 // setting a model will automatically call reload the data using the new model (not animated)
-- (void)transitionToModel:(BumpTableModel *)newModel;                               // animated version of setModel: using UITableViewRowAnimationTop for all row insertions/deletions
+@property (nonatomic,strong) UISearchBar *searchBar;                        // upon first access, the search bar is added to the table header
 
-@property (nonatomic,assign) UITableViewRowAnimation transtionAnimation;            // animation transition to use for row insertions/deletions (does not affect move animations)
-                                                                                    // Default is UITableViewRowAnimationTop
+@property (nonatomic,unsafe_unretained) id <BumpTableScrollViewDelegate> scrollViewDelegate;  // passes through UIScrollViewDelegate callbacks
+
 @end
 
-@protocol BumpTableViewScrollViewDelegate <NSObject, UIScrollViewDelegate>
-// Passthroughs for UIScrollViewDelegate
+
+// Passthroughs for UIScrollViewDelegate (since the BumpTableController is the UITableView delegate and as a result also the UIScrollViewDelegate
+@protocol BumpTableScrollViewDelegate <NSObject, UIScrollViewDelegate>
 @optional
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView;                     // any offset changes
-- (void)scrollViewDidZoom:(UIScrollView *)scrollView NS_AVAILABLE_IOS(3_2); // any zoom scale changes
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView;                       // any zoom scale changes
 
 // called on start of dragging (may require some time and or distance to move)
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView;
@@ -62,6 +61,5 @@
 
 - (BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView;   // return a yes if you want to scroll to the top. if not defined, assumes YES
 - (void)scrollViewDidScrollToTop:(UIScrollView *)scrollView;      // called when scrolling animation finished. may be called immediately if already at top
-
 
 @end

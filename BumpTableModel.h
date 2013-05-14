@@ -1,6 +1,5 @@
 //
 //  BumpTableModel.h
-//  Flock
 //
 //  Created by Sahil Desai on 12/11/12.
 //  Copyright (c) 2012 Bump Technologies Inc. All rights reserved.
@@ -247,6 +246,8 @@ typedef void (^BumpTableCellUpdater)(id cell);
  */
 typedef void (^BumpTableCellOnSelection)(id cell);
 
+typedef BumpTableCellOnSelection BumpTableCellOnDeselection;
+
 /*!
  @typedef BumpTableCellOnSwipeConfirmation
 
@@ -326,15 +327,17 @@ typedef void (^BumpTableCellOnSwipeConfirmation)(id cell);
 
 /*!
  @abstract
- This block gets called when the row is selected
+ This block gets called when the row is selected. 
+ IMPORTANT: If the onTap block is implemented, this block will not get called 
  */
 @property (nonatomic, copy) BumpTableCellOnSelection onSelection;
 
 /*!
  @abstract
  This block gets called when the row is deselected
+ IMPORTANT: If the onTap block is implemented, this block will not get called
  */
-@property (nonatomic, copy) BumpTableCellOnSelection onDeselection;
+@property (nonatomic, copy) BumpTableCellOnDeselection onDeselection;
 
 /*!
  @abstract
@@ -356,4 +359,9 @@ typedef void (^BumpTableCellOnSwipeConfirmation)(id cell);
                     height:(CGFloat)height
            reuseIdentifier:(NSString *)reuseIdentifier
                  generator:(BumpTableCellGenerator)generator;
+
++ (instancetype)rowWithKey:(NSObject <NSCopying>*)key
+                    height:(CGFloat)height
+           reuseIdentifier:(NSString *)reuseIdentifier;
+
 @end

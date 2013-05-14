@@ -1,6 +1,5 @@
 //
 //  BumpTableViewCell.h
-//  Flock
 //
 //  Created by Sahil Desai on 12/11/12.
 //  Copyright (c) 2012 Bump Technologies Inc. All rights reserved.

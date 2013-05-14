@@ -7,35 +7,37 @@
 //
 
 #import "ViewController.h"
-#import "BumpTableView.h"
+#import "BumpTableController.h"
+
 
 #define ROW_HEIGHT 44.0f
 
 @interface ViewController ()
+
+@property (nonatomic) BumpTableController *tableController;
+
+@property (nonatomic) BumpTableSection *chosenSection;
+@property (nonatomic) BumpTableSection *allSection;
+@property (nonatomic) NSMutableArray *fontRows;
+@property (nonatomic) NSMutableArray *chosenFontRows;
+
 @end
 
 @implementation ViewController {
-    BumpTableView *_tableView;
+    UITableView *_tableView;
     UISearchDisplayController *_search;
-    NSMutableArray *_sections;
-    BumpTableSection *_chosenSection;
-    BumpTableSection *_allSection;
-    NSMutableArray *_fontRows;
-    NSMutableArray *_chosenFontRows;
     BOOL _sorted;
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+- (id)init {
+    self = [super init];
     if (self) {
         self.title = @"Font Browser";
     }
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 
     // set up data sources
@@ -51,13 +53,17 @@
     }] mutableCopy];
 
     // set up table view
-    _tableView = [[BumpTableView alloc] initWithFrame:self.view.bounds];
-    _tableView.allowsSwipeConfirmation = YES;
-    _tableView.transtionAnimation = UITableViewRowAnimationFade;
+    _tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
+    _tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    [self.view addSubview:_tableView];
+
+    // initialize table controller with tableview
+    _tableController = [[BumpTableController alloc] initWithTableView:_tableView];
+    _tableController.allowsSwipeConfirmation = YES;
+    _tableController.transitionAnimation = UITableViewRowAnimationTop;
 
     [self updateView];
     [self enableSearching];
-    [self.view addSubview:_tableView];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -69,24 +75,24 @@
 - (BumpTableRow *)tableRowForItem:(NSString *)item {
     static NSString *reuseId = @"CellIdentifier";
     __weak BumpTableRow *newRow = [BumpTableRow rowWithKey:@{ @"name": item }
-                                             height:ROW_HEIGHT
-                                    reuseIdentifier:reuseId
-                                          generator:^UITableViewCell *(NSString *reuseIdentifier) {
-                                              return [[BumpTableViewCell alloc] initWithReuseIdentifier:reuseIdentifier];
-                                          }];
-
+                                                    height:ROW_HEIGHT
+                                           reuseIdentifier:reuseId];
     newRow.searchString = item;
-    newRow.customizer = ^(BumpTableViewCell *cell) {
+    newRow.customizer = ^(UITableViewCell *cell) {
         cell.textLabel.text = item;
         cell.textLabel.font = [UIFont fontWithName:item size:18.0f];
         cell.textLabel.textColor = [UIColor darkGrayColor];
     };
 
-    newRow.onTap = ^(BumpTableViewCell *cell) {
-        NSMutableArray *newChosenRows = [NSMutableArray arrayWithArray:_chosenSection.rows];
-        NSMutableArray *newAllRows = [NSMutableArray arrayWithArray:_allSection.rows];
+    __weak ViewController *weakSelf = self;
+    newRow.onTap = ^(UITableViewCell *cell) {
+        ViewController *strongSelf = weakSelf;
+        if (!strongSelf) return;
+        
+        NSMutableArray *newChosenRows = [NSMutableArray arrayWithArray:strongSelf.chosenSection.rows];
+        NSMutableArray *newAllRows = [NSMutableArray arrayWithArray:strongSelf.allSection.rows];
 
-        if ([_allSection.rows containsObject:newRow]) {
+        if ([strongSelf.allSection.rows containsObject:newRow]) {
             [newChosenRows addObject:newRow];
             [newAllRows removeObject:newRow];
         } else {
@@ -94,38 +100,40 @@
             [newAllRows addObject:newRow];
         }
 
-        _chosenFontRows = [[newChosenRows sortedArrayUsingComparator:^NSComparisonResult(BumpTableRow *row1, BumpTableRow *row2) {
+        strongSelf.chosenFontRows = [[newChosenRows sortedArrayUsingComparator:^NSComparisonResult(BumpTableRow *row1, BumpTableRow *row2) {
             return [row1.searchString compare:row2.searchString];
         }] mutableCopy];
 
-        _fontRows = [[newAllRows sortedArrayUsingComparator:^NSComparisonResult(BumpTableRow *row1, BumpTableRow *row2) {
+        strongSelf.fontRows = [[newAllRows sortedArrayUsingComparator:^NSComparisonResult(BumpTableRow *row1, BumpTableRow *row2) {
             return [row1.searchString compare:row2.searchString];
         }] mutableCopy];
 
-        [self updateView];
-        [self.searchDisplayController setActive:NO];
+        [strongSelf updateView];
+        [strongSelf.searchDisplayController setActive:NO];
     };
 
-    newRow.onSwipeConfirmation = ^(BumpTableViewCell *cell) {
-        NSMutableArray *newChosenRows = [NSMutableArray arrayWithArray:_chosenSection.rows];
-        NSMutableArray *newAllRows = [NSMutableArray arrayWithArray:_allSection.rows];
+    newRow.onSwipeConfirmation = ^(UITableViewCell *cell) {
+        ViewController *strongSelf = weakSelf;
+        if (!strongSelf) return;
 
-        if ([_allSection.rows containsObject:newRow]) {
+        NSMutableArray *newChosenRows = [NSMutableArray arrayWithArray:strongSelf.chosenSection.rows];
+        NSMutableArray *newAllRows = [NSMutableArray arrayWithArray:strongSelf.allSection.rows];
+
+        if ([strongSelf.allSection.rows containsObject:newRow]) {
             [newAllRows removeObject:newRow];
-            _fontRows = newAllRows;
+            strongSelf.fontRows = newAllRows;
         } else {
             [newChosenRows removeObject:newRow];
-            _chosenFontRows = newChosenRows;
+            strongSelf.chosenFontRows = newChosenRows;
         }
-
-        [self updateView];
+        [strongSelf updateView];
     };
 
     return newRow;
 }
 
 - (void)updateView {
-    _sections = [NSMutableArray array];
+    NSMutableArray *sections = [NSMutableArray array];
 
     // chosen fonts
     _chosenSection = [BumpTableSection sectionWithKey:@"chosenSection" rows:_chosenFontRows];
@@ -140,7 +148,7 @@
     }];
 
     if ([_chosenFontRows count]) {
-        [_sections addObject:_chosenSection];
+        [sections addObject:_chosenSection];
     }
 
     // all fonts
@@ -156,19 +164,19 @@
     }];
 
     if ([_fontRows count]) {
-        [_sections addObject:_allSection];
+        [sections addObject:_allSection];
     }
 
-    [_tableView transitionToModel:[BumpTableModel modelWithSections:_sections]];
+    [_tableController transitionToModel:[BumpTableModel modelWithSections:sections]];
 }
 
 - (void)enableSearching {
     if (!_search) {
-        _search = [[UISearchDisplayController alloc] initWithSearchBar:_tableView.searchBar
+        _search = [[UISearchDisplayController alloc] initWithSearchBar:_tableController.searchBar
                                                     contentsController:self];
-        _search.searchResultsDataSource  = _tableView;
-        _search.searchResultsDelegate = _tableView;
-        _search.delegate = _tableView;
+        _search.searchResultsDataSource  = _tableController;
+        _search.searchResultsDelegate = _tableController;
+        _search.delegate = _tableController;
     }
 }
 

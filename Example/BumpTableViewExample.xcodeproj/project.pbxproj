@@ -8,10 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		BA00FAEA169E550E0018F290 /* BumpTableModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BAB0B86F16979650004DE95E /* BumpTableModel.m */; };
-		BA00FAEB169E550E0018F290 /* BumpTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = BAB0B87116979650004DE95E /* BumpTableView.m */; };
 		BA00FAEC169E550E0018F290 /* BumpTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BAB0B87316979650004DE95E /* BumpTableViewCell.m */; };
 		BA00FAED169E550E0018F290 /* NSArray+Bump.m in Sources */ = {isa = PBXBuildFile; fileRef = BAB0B87516979650004DE95E /* NSArray+Bump.m */; };
 		BA00FAEE169E550E0018F290 /* NSObject+Bump.m in Sources */ = {isa = PBXBuildFile; fileRef = BAB0B87716979650004DE95E /* NSObject+Bump.m */; };
+		BA1B3E3F173B0ADE007757B6 /* BumpTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = BA1B3E3B173AD698007757B6 /* BumpTableController.m */; };
 		BE5D614A16791B990026CD23 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE5D614916791B990026CD23 /* UIKit.framework */; };
 		BE5D614C16791B990026CD23 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE5D614B16791B990026CD23 /* Foundation.framework */; };
 		BE5D614E16791B990026CD23 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE5D614D16791B990026CD23 /* CoreGraphics.framework */; };
@@ -22,14 +22,13 @@
 		BE5D615E16791B990026CD23 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BE5D615D16791B990026CD23 /* Default@2x.png */; };
 		BE5D616016791B990026CD23 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BE5D615F16791B990026CD23 /* Default-568h@2x.png */; };
 		BE5D616316791B990026CD23 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BE5D616216791B990026CD23 /* ViewController.m */; };
-		BE5D616616791B990026CD23 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE5D616416791B990026CD23 /* ViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BA1B3E3A173AD698007757B6 /* BumpTableController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BumpTableController.h; path = ../../BumpTableController.h; sourceTree = "<group>"; };
+		BA1B3E3B173AD698007757B6 /* BumpTableController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BumpTableController.m; path = ../../BumpTableController.m; sourceTree = "<group>"; };
 		BAB0B86E16979650004DE95E /* BumpTableModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BumpTableModel.h; path = ../../BumpTableModel.h; sourceTree = "<group>"; };
 		BAB0B86F16979650004DE95E /* BumpTableModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BumpTableModel.m; path = ../../BumpTableModel.m; sourceTree = "<group>"; };
-		BAB0B87016979650004DE95E /* BumpTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BumpTableView.h; path = ../../BumpTableView.h; sourceTree = "<group>"; };
-		BAB0B87116979650004DE95E /* BumpTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BumpTableView.m; path = ../../BumpTableView.m; sourceTree = "<group>"; };
 		BAB0B87216979650004DE95E /* BumpTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BumpTableViewCell.h; path = ../../BumpTableViewCell.h; sourceTree = "<group>"; };
 		BAB0B87316979650004DE95E /* BumpTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BumpTableViewCell.m; path = ../../BumpTableViewCell.m; sourceTree = "<group>"; };
 		BAB0B87416979650004DE95E /* NSArray+Bump.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSArray+Bump.h"; path = "../../NSArray+Bump.h"; sourceTree = "<group>"; };
@@ -51,7 +50,6 @@
 		BE5D615F16791B990026CD23 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		BE5D616116791B990026CD23 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		BE5D616216791B990026CD23 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		BE5D616516791B990026CD23 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,10 +69,10 @@
 		BAB0B86D16979636004DE95E /* BumpTableView */ = {
 			isa = PBXGroup;
 			children = (
+				BA1B3E3A173AD698007757B6 /* BumpTableController.h */,
+				BA1B3E3B173AD698007757B6 /* BumpTableController.m */,
 				BAB0B86E16979650004DE95E /* BumpTableModel.h */,
 				BAB0B86F16979650004DE95E /* BumpTableModel.m */,
-				BAB0B87016979650004DE95E /* BumpTableView.h */,
-				BAB0B87116979650004DE95E /* BumpTableView.m */,
 				BAB0B87216979650004DE95E /* BumpTableViewCell.h */,
 				BAB0B87316979650004DE95E /* BumpTableViewCell.m */,
 				BAB0B87416979650004DE95E /* NSArray+Bump.h */,
@@ -120,7 +118,6 @@
 				BE5D615916791B990026CD23 /* AppDelegate.m */,
 				BE5D616116791B990026CD23 /* ViewController.h */,
 				BE5D616216791B990026CD23 /* ViewController.m */,
-				BE5D616416791B990026CD23 /* ViewController.xib */,
 				BE5D615016791B990026CD23 /* Supporting Files */,
 			);
 			path = BumpTableViewExample;
@@ -195,7 +192,6 @@
 				BE5D615C16791B990026CD23 /* Default.png in Resources */,
 				BE5D615E16791B990026CD23 /* Default@2x.png in Resources */,
 				BE5D616016791B990026CD23 /* Default-568h@2x.png in Resources */,
-				BE5D616616791B990026CD23 /* ViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,10 +206,10 @@
 				BE5D615A16791B990026CD23 /* AppDelegate.m in Sources */,
 				BE5D616316791B990026CD23 /* ViewController.m in Sources */,
 				BA00FAEA169E550E0018F290 /* BumpTableModel.m in Sources */,
-				BA00FAEB169E550E0018F290 /* BumpTableView.m in Sources */,
 				BA00FAEC169E550E0018F290 /* BumpTableViewCell.m in Sources */,
 				BA00FAED169E550E0018F290 /* NSArray+Bump.m in Sources */,
 				BA00FAEE169E550E0018F290 /* NSObject+Bump.m in Sources */,
+				BA1B3E3F173B0ADE007757B6 /* BumpTableController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,14 +222,6 @@
 				BE5D615316791B990026CD23 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		BE5D616416791B990026CD23 /* ViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BE5D616516791B990026CD23 /* en */,
-			);
-			name = ViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
