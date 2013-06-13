@@ -161,20 +161,6 @@
     [other reloadData];
 }
 
-- (void)toggleRow:(NSIndexPath *)indexPath inTableView:(UITableView *)tableView {
-    BumpTableRow *row = [self rowForTableView:tableView indexPath:indexPath];
-    row.selected = !row.selected;
-    BumpTableViewCell *cell = (BumpTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-    if (row.selected) {
-        if (row.onSelection) row.onSelection(cell);
-    } else {
-        if (row.onDeselection) row.onDeselection(cell);
-    }
-    if ([cell respondsToSelector:@selector(selectCell:)]) [cell selectCell:row.selected];
-    
-    [self reloadOtherTableView:tableView];
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     BumpTableRow *row = [self rowForTableView:tableView indexPath:indexPath];
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
@@ -184,17 +170,10 @@
             [tableView deselectRowAtIndexPath:indexPath animated:YES];
         }
         row.onTap(cell);
-    } else {
-        if (row.selectable) {
-            [self toggleRow:indexPath inTableView:tableView];
-        } else {
-            [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        }
-    }
-}
 
-- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self toggleRow:indexPath inTableView:tableView];
+        //If you have search tableview you want to make sure it's contents are updated or vice versa
+        [self reloadOtherTableView:tableView];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -232,13 +211,6 @@
     if (tableView == _searchResultsTableView) return [_searchResultsRows objectAtIndex:indexPath.row];
     NSAssert(false, @"Unknown tableview");
     return nil;
-}
-
-- (NSArray *)selectedRows {
-    NSArray *selectedRows = [[_tableView indexPathsForSelectedRows] mapWithBlock:^id(NSIndexPath *indexPath) {
-        return [self rowForIndexPath:indexPath];
-    }];
-    return selectedRows;
 }
 
 #pragma mark - Model changing

@@ -10,6 +10,8 @@
 @class BumpTableSection;
 @class BumpTableRow;
 
+typedef BOOL(^BumpTableRowPredicate)(BumpTableRow *row);
+
 /*!
  @class BumpTableModel
 
@@ -29,12 +31,6 @@
  This should only contain `BumpTableSection` objects
  */
 @property (nonatomic, copy) NSArray *sections;
-
-/*!
- @abstract
- Array containing the selected table rows
- */
-@property (readonly) NSArray *selectedRows;
 
 /*!
  @method
@@ -97,6 +93,16 @@
  @param row     A table row that exists in this model
  */
 - (NSIndexPath *)indexPathForRow:(BumpTableRow *)row;
+
+
+/*!
+ @method
+ @abstract
+ Returns a list of BumpTableRow objects that match the given predicate
+
+ @param predicate   block that takes a row and returns a boolean
+ */
+- (NSArray *)rowsForPredicate:(BumpTableRowPredicate)predicate;
 
 @end
 
@@ -324,20 +330,6 @@ typedef void (^BumpTableCellOnSwipeConfirmation)(id cell);
  It should be used if you don't care about selection state callbacks below
  */
 @property (nonatomic, copy) BumpTableCellOnSelection onTap;
-
-/*!
- @abstract
- This block gets called when the row is selected. 
- IMPORTANT: If the onTap block is implemented, this block will not get called 
- */
-@property (nonatomic, copy) BumpTableCellOnSelection onSelection;
-
-/*!
- @abstract
- This block gets called when the row is deselected
- IMPORTANT: If the onTap block is implemented, this block will not get called
- */
-@property (nonatomic, copy) BumpTableCellOnDeselection onDeselection;
 
 /*!
  @abstract

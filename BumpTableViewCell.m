@@ -31,9 +31,4 @@
     return self;
 }
 
-// Override in order to update custom UI for BumpTableView multiple selection
-- (void)selectCell:(BOOL)selected {
-    // Empty implementation
-}
-
 @end

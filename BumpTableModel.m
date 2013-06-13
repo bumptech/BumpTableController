@@ -15,7 +15,6 @@
 @end
 
 @implementation BumpTableModel : NSObject
-@dynamic selectedRows;
 
 + (instancetype)modelWithSections:(NSArray *)sections {
     BumpTableModel *model = [self new];
@@ -114,11 +113,11 @@
     return [BumpTableModel modelWithRows:[self rowsForSearchString:searchString]];
 }
 
-- (NSArray *)selectedRows {
+- (NSArray *)rowsForPredicate:(BumpTableRowPredicate)predicate {
     NSMutableArray *rows = [NSMutableArray array];
     [_sections enumerateObjectsUsingBlock:^(BumpTableSection *s, NSUInteger idx, BOOL *stop) {
         [s.rows enumerateObjectsUsingBlock:^(BumpTableRow *r, NSUInteger idx, BOOL *stop) {
-            if (r.selected) [rows addObject:r];
+            if (predicate(r)) [rows addObject:r];
         }];
     }];
 
@@ -243,15 +242,14 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<Row key:%@\nsearch string:%@\nheight:%f\nreuse:%@\ngenerator:%d\ncustomizer:%d\nonSelection:%d\nonDeselection:%d\n>",
+    return [NSString stringWithFormat:@"<Row key:%@\nsearch string:%@\nheight:%f\nreuse:%@\ngenerator:%d\ncustomizer:%d\nonTap:%d\n>",
             self.key,
             self.searchString,
             self.height,
             self.reuseIdentifier,
             !!self.generator,
             !!self.customizer,
-            !!self.onSelection,
-            !!self.onDeselection];
+            !!self.onTap];
 }
 
 @end
