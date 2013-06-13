@@ -243,16 +243,14 @@ typedef UITableViewCell *(^BumpTableCellGenerator)(NSString *reuseIdentifier);
 typedef void (^BumpTableCellUpdater)(id cell);
 
 /*!
- @typedef BumpTableCellOnSelection
+ @typedef BumpTableCellOnTap
 
  @abstract
 
  @discussion
 
  */
-typedef void (^BumpTableCellOnSelection)(id cell);
-
-typedef BumpTableCellOnSelection BumpTableCellOnDeselection;
+typedef void (^BumpTableCellOnTap)(id cell);
 
 /*!
  @typedef BumpTableCellOnSwipeConfirmation
@@ -329,7 +327,7 @@ typedef void (^BumpTableCellOnSwipeConfirmation)(id cell);
  This get's called when the user taps on a row.
  It should be used if you don't care about selection state callbacks below
  */
-@property (nonatomic, copy) BumpTableCellOnSelection onTap;
+@property (nonatomic, copy) BumpTableCellOnTap onTap;
 
 /*!
  @abstract
