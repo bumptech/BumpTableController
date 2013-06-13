@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C35AFDE176A7A6A00B67CDE /* BTVViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C35AFDD176A7A6A00B67CDE /* BTVViewController.xib */; };
 		4C7DD8701755687D0078DAA8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C7DD86F1755687D0078DAA8 /* UIKit.framework */; };
 		4C7DD8721755687D0078DAA8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C7DD8711755687D0078DAA8 /* Foundation.framework */; };
 		4C7DD8741755687D0078DAA8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C7DD8731755687D0078DAA8 /* CoreGraphics.framework */; };
@@ -17,7 +18,6 @@
 		4C7DD8841755687D0078DAA8 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C7DD8831755687D0078DAA8 /* Default@2x.png */; };
 		4C7DD8861755687D0078DAA8 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C7DD8851755687D0078DAA8 /* Default-568h@2x.png */; };
 		4C8A350817556EB3003B3232 /* BTVViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C8A350617556EB3003B3232 /* BTVViewController.m */; };
-		4C8A350917556EB3003B3232 /* BTVViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C8A350717556EB3003B3232 /* BTVViewController.xib */; };
 		4C8A351517557727003B3232 /* BumpTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C8A350C17557727003B3232 /* BumpTableController.m */; };
 		4C8A351617557727003B3232 /* BumpTableModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C8A350E17557727003B3232 /* BumpTableModel.m */; };
 		4C8A351717557727003B3232 /* BumpTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C8A351017557727003B3232 /* BumpTableViewCell.m */; };
@@ -26,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4C35AFDD176A7A6A00B67CDE /* BTVViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BTVViewController.xib; sourceTree = "<group>"; };
 		4C7DD86C1755687D0078DAA8 /* BTVSelectExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BTVSelectExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C7DD86F1755687D0078DAA8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4C7DD8711755687D0078DAA8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -41,7 +42,6 @@
 		4C7DD8851755687D0078DAA8 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		4C8A350517556EB3003B3232 /* BTVViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTVViewController.h; sourceTree = "<group>"; };
 		4C8A350617556EB3003B3232 /* BTVViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTVViewController.m; sourceTree = "<group>"; };
-		4C8A350717556EB3003B3232 /* BTVViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BTVViewController.xib; sourceTree = "<group>"; };
 		4C8A350B17557727003B3232 /* BumpTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BumpTableController.h; path = ../../BumpTableController.h; sourceTree = "<group>"; };
 		4C8A350C17557727003B3232 /* BumpTableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BumpTableController.m; path = ../../BumpTableController.m; sourceTree = "<group>"; };
 		4C8A350D17557727003B3232 /* BumpTableModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BumpTableModel.h; path = ../../BumpTableModel.h; sourceTree = "<group>"; };
@@ -104,7 +104,7 @@
 				4C7DD8761755687D0078DAA8 /* Supporting Files */,
 				4C8A350517556EB3003B3232 /* BTVViewController.h */,
 				4C8A350617556EB3003B3232 /* BTVViewController.m */,
-				4C8A350717556EB3003B3232 /* BTVViewController.xib */,
+				4C35AFDD176A7A6A00B67CDE /* BTVViewController.xib */,
 			);
 			path = BTVSelectExample;
 			sourceTree = "<group>";
@@ -196,7 +196,7 @@
 				4C7DD8821755687D0078DAA8 /* Default.png in Resources */,
 				4C7DD8841755687D0078DAA8 /* Default@2x.png in Resources */,
 				4C7DD8861755687D0078DAA8 /* Default-568h@2x.png in Resources */,
-				4C8A350917556EB3003B3232 /* BTVViewController.xib in Resources */,
+				4C35AFDE176A7A6A00B67CDE /* BTVViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,6 +294,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BTVSelectExample/BTVSelectExample-Prefix.pch";
 				INFOPLIST_FILE = "BTVSelectExample/BTVSelectExample-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -305,6 +306,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BTVSelectExample/BTVSelectExample-Prefix.pch";
 				INFOPLIST_FILE = "BTVSelectExample/BTVSelectExample-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
