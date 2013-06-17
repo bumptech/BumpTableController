@@ -7,7 +7,6 @@
 //
 
 #import "BumpTableModel.h"
-#import "BumpTableViewCell.h"
 
 @protocol BumpTableScrollViewDelegate;
 

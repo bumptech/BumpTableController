@@ -88,8 +88,9 @@
         if (row.generator != NULL) {
             cell = row.generator(row.reuseIdentifier);
         } else {
-            // no generator was specified, create a basic BumpTableViewCell with reuseIdentifier
-            cell = [[BumpTableViewCell alloc] initWithReuseIdentifier:row.reuseIdentifier];
+            // no generator was specified, create a basic UITableViewCell
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                          reuseIdentifier:row.reuseIdentifier];
         }
     }
     if (row.customizer) {
