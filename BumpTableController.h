@@ -8,8 +8,6 @@
 
 #import "BumpTableModel.h"
 
-@protocol BumpTableScrollViewDelegate;
-
 @interface BumpTableController : NSObject <UITableViewDataSource,UITableViewDelegate,UISearchDisplayDelegate>
 
 - (id)initWithTableView:(UITableView *)tableView;
