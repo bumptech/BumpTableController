@@ -1,11 +1,3 @@
-//
-//  BumpTableController.h
-//  bump2
-//
-//  Created by Sahil Desai on 5/7/13.
-//
-//
-
 #import "BumpTableModel.h"
 
 @interface BumpTableController : NSObject <UITableViewDataSource,UITableViewDelegate,UISearchDisplayDelegate>

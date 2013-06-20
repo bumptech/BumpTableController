@@ -1,11 +1,3 @@
-//
-//  BumpTableController.m
-//  bump2
-//
-//  Created by Sahil Desai on 5/7/13.
-//
-//
-
 #import "BumpTableController.h"
 #import "BumpTableUtils.h"
 

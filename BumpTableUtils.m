@@ -1,11 +1,3 @@
-//
-//  BumpTableUtils.m
-//  BumpTableViewExample
-//
-//  Created by Indrajit Khare on 6/19/13.
-//  Copyright (c) 2013 Bump Technologies Inc. All rights reserved.
-//
-
 #import "BumpTableUtils.h"
 
 @implementation BumpTableUtils
