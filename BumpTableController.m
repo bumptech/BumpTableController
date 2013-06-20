@@ -90,6 +90,7 @@
             // no generator was specified, create a basic UITableViewCell
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                           reuseIdentifier:row.reuseIdentifier];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
     }
     if (row.customizer) {
@@ -165,10 +166,6 @@
     BumpTableRow *row = [self rowForTableView:tableView indexPath:indexPath];
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if (row.onTap) {
-        if (cell.selectionStyle != UITableViewCellEditingStyleNone) {
-            // deselect row if applicable, before onTap block is called
-            [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        }
         row.onTap(cell);
 
         //If you have search tableview you want to make sure it's contents are updated or vice versa
