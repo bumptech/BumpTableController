@@ -442,7 +442,6 @@
 - (UISearchBar *)searchBar {
     if (!_searchBar) {
         _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0,0,_tableView.frame.size.width, SEARCH_BAR_HEIGHT)];
-        _searchBar.backgroundImage = [UIImage imageNamed:@"searchbar_invites.png"];
         _tableView.tableHeaderView = _searchBar;
     }
     return _searchBar;
