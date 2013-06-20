@@ -6,8 +6,7 @@
 //
 
 #import "BumpTableModel.h"
-#import "NSArray+Bump.h"
-#import "NSObject+Bump.h"
+#import "BumpTableUtils.h"
 
 @interface BumpTableModel ()
 @property (nonatomic) NSMutableDictionary *sectionNumberForRow;
@@ -80,7 +79,7 @@
 
 - (NSDictionary *)rowIndexPaths {
     NSMutableDictionary *indexPaths = [NSMutableDictionary dictionaryWithCapacity:
-                                       [_sections sumWithBlock:
+                                       [BumpTableUtils sumArray:_sections withBlock:
                                         ^int(BumpTableSection *s) {
                                             return s.rows.count + 1;
                                         }]];
@@ -125,7 +124,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<Model sections:%@\n>", [_sections indentedDescription]];
+    return [NSString stringWithFormat:@"<Model sections:%@\n>", [BumpTableUtils indentedDescriptionForObject:_sections]];
 }
 
 @end
@@ -189,7 +188,7 @@
             self.key,
             self.header,
             self.footer,
-            [self.rows indentedDescription]];
+            [BumpTableUtils indentedDescriptionForObject:self.rows]];
 }
 
 @end

@@ -7,8 +7,7 @@
 //
 
 #import "BumpTableController.h"
-#import "NSArray+Bump.h"
-#import "NSObject+Bump.h"
+#import "BumpTableUtils.h"
 
 #define SEARCH_BAR_HEIGHT 44.0f
 
@@ -25,10 +24,10 @@
 @implementation BumpTransition
 - (NSString *)description {
     return [NSString stringWithFormat:@"<Transition inserted:%@\ndeleted:%@\nmutual:%@\nmoved:%@\n>",
-            [[_inserted allObjects] indentedDescription],
-            [[_deleted allObjects] indentedDescription],
-            [[_mutual allObjects] indentedDescription],
-            [[_moved allObjects] indentedDescription]];
+            [BumpTableUtils indentedDescriptionForObject:[_inserted allObjects]],
+            [BumpTableUtils indentedDescriptionForObject:[_deleted allObjects]],
+            [BumpTableUtils indentedDescriptionForObject:[_mutual allObjects]],
+            [BumpTableUtils indentedDescriptionForObject:[_moved allObjects]]];
 }
 @end
 
@@ -246,9 +245,9 @@
     NSDictionary *newS = [newModel sectionIndexes];
     NSAssert(newS.count == newModel.sections.count, @"the new table model has non-unique section keys");
     NSDictionary *oldIps = [oldModel rowIndexPaths];//key->indexPath if its a row
-    NSAssert(oldIps.count == oldS.count + [oldModel.sections sumWithBlock:^int(BumpTableSection *s) { return s.rows.count; }], @"the old table model has non-unique row keys");
+    NSAssert(oldIps.count == oldS.count + [BumpTableUtils sumArray:oldModel.sections withBlock:^int(BumpTableSection *s) { return s.rows.count; }], @"the old table model has non-unique row keys");
     NSDictionary *newIps = [newModel rowIndexPaths];//key->dict of k->ip if it's a section
-    NSAssert(newIps.count == newS.count + [newModel.sections sumWithBlock:^int(BumpTableSection *s) { return s.rows.count; }], @"the new table model has non-unique row keys");
+    NSAssert(newIps.count == newS.count + [BumpTableUtils sumArray:newModel.sections withBlock:^int(BumpTableSection *s) { return s.rows.count; }], @"the new table model has non-unique row keys");
 
     BumpTransition *rowInfo = [[self class] rowTransitionFrom:oldModel to:newModel
                                                  fromSections:oldS toSections:newS
@@ -344,10 +343,10 @@
 
     //calculate inserted and deleted sections
     id (^secKeys)(id) = ^id(BumpTableSection *s) { return s.key; };
-    NSSet *oldSKeys = [NSSet setWithArray:[oldSections
-                                           mapWithBlock:secKeys]];
-    NSSet *newSKeys = [NSSet setWithArray:[newSections
-                                           mapWithBlock:secKeys]];
+    NSSet *oldSKeys = [NSSet setWithArray:[BumpTableUtils mapArray:oldSections
+                                                         withBlock:secKeys]];
+    NSSet *newSKeys = [NSSet setWithArray:[BumpTableUtils mapArray:newSections
+                                                         withBlock:secKeys]];
     NSMutableSet *mutualSections = [NSMutableSet setWithSet:oldSKeys];
     [mutualSections intersectSet:newSKeys];
     [deletedSections unionSet:oldSKeys];
@@ -359,10 +358,12 @@
         return [mutualSections containsObject:key];
     };
     //calculate moved sections
-    NSSet *movedSections = [self movedKeysFrom:[[oldSections mapWithBlock:secKeys]
-                                                filterWithBlock:goodSecs]
-                                            to:[[newSections mapWithBlock:secKeys]
-                                                filterWithBlock:goodSecs]];
+    NSSet *movedSections = [self movedKeysFrom:[BumpTableUtils filterArray:[BumpTableUtils mapArray:oldSections
+                                                                                          withBlock:secKeys]
+                                                                 withBlock:goodSecs]
+                                            to:[BumpTableUtils filterArray:[BumpTableUtils mapArray:newSections
+                                                                                          withBlock:secKeys]
+                                                                 withBlock:goodSecs]];
     BumpTransition *sectionTransition = [BumpTransition new];
     sectionTransition.inserted = insertedSections;
     sectionTransition.deleted = deletedSections;
@@ -422,10 +423,12 @@
         BOOL (^goodRow)(id) = ^BOOL(NSObject *key) {
             return [mutualRows containsObject:key] && ![movedRows containsObject:key];
         };
-        NSSet *movedInThisSection = [self movedKeysFrom:[[oldSection.rows mapWithBlock:rKey]
-                                                         filterWithBlock:goodRow]
-                                                     to:[[newSection.rows mapWithBlock:rKey]
-                                                         filterWithBlock:goodRow]];
+        NSSet *movedInThisSection = [self movedKeysFrom:[BumpTableUtils filterArray:[BumpTableUtils mapArray:oldSection.rows
+                                                                                                   withBlock:rKey]
+                                                                          withBlock:goodRow]
+                                                     to:[BumpTableUtils filterArray:[BumpTableUtils mapArray:newSection.rows
+                                                                                                   withBlock:rKey]
+                                                                          withBlock:goodRow]];
         [movedRows unionSet:movedInThisSection];
     }
 
