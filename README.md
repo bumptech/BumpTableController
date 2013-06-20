@@ -81,7 +81,7 @@ We've used BumpTableController as an exculsively for UITableViews in the Flock a
 
 Authors
 -------
-Various memebers of the Bump iOS team have worked on this code. The first version was written by [Ian Macartney](http://ianmacartney.com) while he was at Bump. Since then the various members of the Bump iOS team have contributed to it's continual improvement (In no particular order):
+The first version was written by [Ian Macartney](http://ianmacartney.com) while he was at Bump. Since then the various members of the Bump iOS team have contributed to it's continual improvement (In no particular order):
 
 * [Sahil Desai](https://github.com/Sahil)
 * [Jason Ting](https://github.com/jzting)
