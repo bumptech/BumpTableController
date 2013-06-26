@@ -13,7 +13,7 @@ static NSString *indentedString(NSString *s) {
     if ([obj conformsToProtocol:@protocol(NSFastEnumeration)]) {
         NSMutableString *s = [NSMutableString stringWithString:@"{\n"];
         for (NSObject *o in (id<NSFastEnumeration>)obj) {
-            [s appendFormat:@"%@\n", [[self class] indentedDescriptionForObject:o]];
+            [s appendFormat:@"%@\n", [[o class] indentedDescriptionForObject:o]];
         }
         [s appendString:@"}"];
         return indentedString(s);
